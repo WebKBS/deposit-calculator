@@ -1,3 +1,7 @@
 export default function Home() {
-  return <main></main>;
+  return (
+    <main>
+      <div className="max-w-screen-md m-auto"></div>
+    </main>
+  );
 }

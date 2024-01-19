@@ -10,6 +10,8 @@ export default function ThemeToggle() {
   const [themeState, setThemeState] = useState(<MdOutlineDarkMode size="20" />);
 
   useEffect(() => {
+    // resolveTheme가 바뀔 때마다 아이콘 변경
+
     if (resolvedTheme === 'dark') {
       setThemeState(<MdOutlineLightMode size="20" />);
     } else {

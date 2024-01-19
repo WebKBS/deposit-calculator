@@ -1,3 +1,3 @@
 export default function Footer() {
-  return <footer>copy</footer>;
+  return <footer>Copyright © [Dev Kang]. All rights reserved.</footer>;
 }
