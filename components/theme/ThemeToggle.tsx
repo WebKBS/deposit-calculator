@@ -31,7 +31,7 @@ export default function ThemeToggle() {
 
   return (
     <div>
-      <Button size="icon" onClick={toggleTheme}>
+      <Button size="icon" variant="secondary" onClick={toggleTheme}>
         {themeState}
       </Button>
     </div>

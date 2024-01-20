@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Header from '@/components/header/Header';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -28,9 +28,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          {children}
-          <Footer />
+          <div className="flex flex-col min-h-[100%]">
+            <Header />
+            {children}
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>
