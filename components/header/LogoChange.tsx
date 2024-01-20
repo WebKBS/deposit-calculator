@@ -10,7 +10,6 @@ export default function LogoChange() {
   const { resolvedTheme } = useTheme();
   const [logo, setLogo] = useState<string>(Logo);
 
-  console.log(logo);
   useEffect(() => {
     if (resolvedTheme === 'dark') {
       setLogo(Logo);

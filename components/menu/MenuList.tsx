@@ -1,3 +1,4 @@
+import { useMenu } from '@/lib/store';
 import Link from 'next/link';
 
 const menuList = [
@@ -8,13 +9,15 @@ const menuList = [
 ];
 
 export default function MenuList() {
+  const toggle = useMenu((state) => state.toggle);
+
   return (
     <aside className="p-4">
       <nav>
         <ul className="flex flex-col gap-4">
           {menuList.map((menu, index) => (
             <li key={index}>
-              <Link href={menu.href} className="text-sm">
+              <Link href={menu.href} className="text-sm" onClick={toggle}>
                 {menu.name}
               </Link>
             </li>
