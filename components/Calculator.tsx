@@ -12,10 +12,13 @@ export default function Calculator() {
   };
   return (
     <div>
-      <div>
-        <Label htmlFor="defaultValue">기본 보증금</Label>
-        <TipAlertDialog title="기본 보증금이란?" body="" />
-
+      <div className="mb-4">
+        <div className="mb-2">
+          <Label htmlFor="defaultValue" className="mr-2">
+            기본 보증금
+          </Label>
+          <TipAlertDialog title="기본 보증금이란?" body="" />
+        </div>
         <Input
           id="defaultValue"
           type="number"
@@ -24,7 +27,6 @@ export default function Calculator() {
           value={defaultValue || ''}
         />
       </div>
-      {defaultValue}
       <div>
         <Input type="number" placeholder="Enter a number" />
       </div>
