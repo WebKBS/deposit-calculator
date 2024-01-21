@@ -6,11 +6,11 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 
 export default function Calculator() {
-  const [defaultValue, setDefault] = useState<string | null>();
-  const [downPayment, setDownPayment] = useState<string | null>();
-  const [calcDownPayment, setCalcDownPayment] = useState<string | null>();
-  const [balance, setBalance] = useState<string | null>();
-  const [calcBalance, setCalcBalance] = useState<string | null>();
+  const [defaultValue, setDefault] = useState<string | null>(); // 기본 보증금
+  const [downPayment, setDownPayment] = useState<string | null>(); // 계약금
+  const [calcDownPayment, setCalcDownPayment] = useState<string | null>(); // 계산된 계약금
+  const [balance, setBalance] = useState<string | null>(); // 잔금
+  const [calcBalance, setCalcBalance] = useState<string | null>(); // 계산된 잔금
 
   // 기본 보증금
   const defaultHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -26,19 +26,22 @@ export default function Calculator() {
     if (!defaultValue) return alert('기본 보증금을 입력해주세요.');
 
     const inputNumber = event.target.value;
+    const percentNumber = +inputNumber / 100; // 계약금 퍼센트
     const removeCommaDefault = +removeComma(defaultValue!); // 기본 보증금 콤마 제거
-    const removeCommaDownPayment = +removeComma(calcDownPayment!); // 계약금 콤마 제거
-    const percentNumver = +inputNumber / 100; // 계약금 퍼센트
 
+    if (+inputNumber > 100) return alert('계약금은 100%를 초과할 수 없습니다.');
     setDownPayment(inputNumber);
-    console.log(removeCommaDownPayment);
 
-    setCalcDownPayment((removeCommaDefault! * +percentNumver).toLocaleString());
+    // 잔금 퍼센트
+    setBalance((100 - +inputNumber!).toString());
+
+    // 총 계약금
+    setCalcDownPayment((removeCommaDefault! * +percentNumber).toLocaleString());
+
+    // 총 잔금
     setCalcBalance(
-      (removeCommaDefault - removeCommaDownPayment).toLocaleString()
+      (removeCommaDefault! * (1 - +percentNumber)).toLocaleString()
     );
-
-    setBalance(0 || (100 - +inputNumber!).toString());
   };
 
   return (
