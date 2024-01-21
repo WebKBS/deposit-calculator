@@ -17,6 +17,8 @@ export default function Calculator() {
   const [calcDownPayment, setCalcDownPayment] = useState<string | null>(); // 계산된 계약금
   const [balance, setBalance] = useState<string | null>(); // 잔금
   const [calcBalance, setCalcBalance] = useState<string | null>(); // 계산된 잔금
+  const [maxConversion, setMaxConversion] = useState<string | null>(); // 최대 전환금
+  const [conversion, setConversion] = useState<string | null>(); // 전환 이율
 
   const LIMIT_NUMBER = 100;
 
@@ -66,7 +68,7 @@ export default function Calculator() {
       const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
 
       if (+inputNumber > LIMIT_NUMBER)
-        return alert('계약금은 100%를 초과할 수 없습니다.');
+        return alert(`계약금은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
 
       setDownPayment(inputNumber);
 
@@ -84,6 +86,41 @@ export default function Calculator() {
       );
     },
     [defaultDeposit]
+  );
+
+  //최대 전환금
+  const maxConversionHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (!defaultDeposit) {
+        input.current?.focus();
+        alert('기본 보증금을 입력해주세요.');
+        return;
+      }
+
+      const inputNumber = event.target.value;
+      if (+inputNumber > LIMIT_NUMBER)
+        return alert(`전환금은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
+
+      setMaxConversion(inputNumber);
+    },
+    [defaultDeposit]
+  );
+
+  // 전환 이율
+  const conversionHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (!defaultDeposit) {
+        input.current?.focus();
+        alert('기본 보증금을 입력해주세요.');
+        return;
+      } else if (!maxConversion) {
+        alert('최대 전환금을 입력해주세요.');
+        return;
+      }
+      const inputNumber = event.target.value;
+      setConversion(inputNumber);
+    },
+    [defaultDeposit, maxConversion]
   );
 
   return (
@@ -185,11 +222,11 @@ export default function Calculator() {
         </div>
       </div>
       <div className="mb-6">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-3">
             <p className="flex items-center gap-1">
               <Label>보증금</Label>
-              {isChange ? (
+              {!isChange ? (
                 <FaArrowDown className="text-blue-600" />
               ) : (
                 <FaArrowUp className="text-red-600" />
@@ -197,7 +234,7 @@ export default function Calculator() {
             </p>
             <p className="flex items-center gap-1">
               월세
-              {isChange ? (
+              {!isChange ? (
                 <FaArrowUp className="text-red-600" />
               ) : (
                 <FaArrowDown className="text-blue-600" />
@@ -205,15 +242,19 @@ export default function Calculator() {
             </p>
             <TipAlertDialog title="보증금 하향, 월세 상향" body="" />
           </div>
-          <Button onClick={toggleChange}>변경</Button>
+          <Button variant="outline" onClick={toggleChange}>
+            전환 변경
+          </Button>
         </div>
         <div className="flex items-center gap-2 mb-2 text-sm">
           보증금의
           <Input
             type="text"
-            placeholder=""
+            placeholder="%"
             maxLength={3}
             className="w-16 h-8 text-right border-red-500"
+            onChange={maxConversionHandler}
+            value={maxConversion || ''}
           />
           % 까지 전환
         </div>
@@ -221,28 +262,53 @@ export default function Calculator() {
           전환 이율
           <Input
             type="text"
-            placeholder=""
+            placeholder="%"
             maxLength={3}
             className="w-16 h-8 text-right border-red-500"
+            onChange={conversionHandler}
+            value={conversion || ''}
           />
           %
         </div>
         <div>
           <div className="flex justify-between gap-2">
             <p className="min-w-24">
-              <span className="text-blue-500">최소</span> 보증금:
+              {!isChange ? (
+                <span className="text-blue-500">최소</span>
+              ) : (
+                <span className="text-red-500">최대</span>
+              )}{' '}
+              보증금:
             </p>
-            <p>
-              <span className="mr-1 text-blue-500 break-all">0</span>원
-            </p>
+
+            {!isChange ? (
+              <p>
+                <span className="mr-1 text-blue-500 break-all">0</span>원
+              </p>
+            ) : (
+              <p>
+                <span className="mr-1 text-red-500 break-all">0</span>원
+              </p>
+            )}
           </div>
           <div className="flex justify-between gap-2">
             <p className="min-w-24">
-              <span className="text-red-500">최대</span> 임대료:
+              {!isChange ? (
+                <span className="text-red-500">최대</span>
+              ) : (
+                <span className="text-blue-500">최소</span>
+              )}{' '}
+              임대료:
             </p>
-            <p>
-              <span className="mr-1 text-red-500 break-all">0</span>원
-            </p>
+            {!isChange ? (
+              <p>
+                <span className="mr-1 text-red-500 break-all">0</span>원
+              </p>
+            ) : (
+              <p>
+                <span className="mr-1 text-blue-500 break-all">0</span>원
+              </p>
+            )}
           </div>
         </div>
       </div>
