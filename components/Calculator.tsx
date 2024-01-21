@@ -1,17 +1,20 @@
 'use client';
 import { parseInputValue, removeComma } from '@/lib/utils';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { TipAlertDialog } from './TipAlertDialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
 export default function Calculator() {
+  const input = useRef<HTMLInputElement>(null);
   const [defaultDeposit, setDefaultDeposit] = useState<string | null>(); // 기본 보증금
   const [defaultRent, setDefaultRent] = useState<string | null>(); // 기본 월 임대료
   const [downPayment, setDownPayment] = useState<string | null>(); // 계약금
   const [calcDownPayment, setCalcDownPayment] = useState<string | null>(); // 계산된 계약금
   const [balance, setBalance] = useState<string | null>(); // 잔금
   const [calcBalance, setCalcBalance] = useState<string | null>(); // 계산된 잔금
+
+  const LIMIT_NUMBER = 100;
 
   // 기본 보증금
   const defaultHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,17 +32,23 @@ export default function Calculator() {
 
   // 계약금
   const downPaymentHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!defaultDeposit) return alert('기본 보증금을 입력해주세요.');
+    if (!defaultDeposit) {
+      input.current?.focus();
+      alert('기본 보증금을 입력해주세요.');
+      return;
+    }
 
     const inputNumber = event.target.value;
-    const percentNumber = +inputNumber / 100; // 계약금 퍼센트
+    const percentNumber = +inputNumber / LIMIT_NUMBER; // 계약금 퍼센트
     const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
 
-    if (+inputNumber > 100) return alert('계약금은 100%를 초과할 수 없습니다.');
+    if (+inputNumber > LIMIT_NUMBER)
+      return alert('계약금은 100%를 초과할 수 없습니다.');
+
     setDownPayment(inputNumber);
 
     // 잔금 퍼센트
-    setBalance((100 - +inputNumber!).toString());
+    setBalance((LIMIT_NUMBER - +inputNumber!).toString());
 
     // 총 계약금
     setCalcDownPayment((removeCommaDefault! * +percentNumber).toLocaleString());
@@ -68,6 +77,7 @@ export default function Calculator() {
           pattern="[0-9]*"
           inputMode="numeric"
           className="text-right border-red-500"
+          ref={input}
         />
       </div>
       <div className="mb-4">
@@ -95,7 +105,7 @@ export default function Calculator() {
 
           <TipAlertDialog title="계약금이란?" body="" />
           <p className="my-2 text-xs text-green-600 dark:text-yellow-300">
-            *계약금을 입력하면 자동 입력됩니다.
+            *계약금 비율을 입력하면 자동 입력됩니다.
           </p>
         </div>
         <div className="flex gap-4">
