@@ -5,8 +5,8 @@ import LogoChange from './LogoChange';
 
 export default function Header() {
   return (
-    <header className="sticky top-0 py-4 px-5 z-50 max-w-5xl mx-auto w-full">
-      <div className="flex justify-between items-center">
+    <header className="sticky top-0 z-50 w-full max-w-5xl px-5 py-4 mx-auto backdrop-blur-xl">
+      <div className="flex items-center justify-between">
         <h1>
           <Link href="/">
             <LogoChange />

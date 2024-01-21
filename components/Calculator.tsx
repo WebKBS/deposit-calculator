@@ -1,12 +1,16 @@
 'use client';
+import { depositChange } from '@/lib/store';
 import { parseInputValue, removeComma } from '@/lib/utils';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { TipAlertDialog } from './TipAlertDialog';
+import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
 export default function Calculator() {
   const input = useRef<HTMLInputElement>(null);
+  const { isChange, toggleChange } = depositChange();
   const [defaultDeposit, setDefaultDeposit] = useState<string | null>(); // 기본 보증금
   const [defaultRent, setDefaultRent] = useState<string | null>(); // 기본 월 임대료
   const [downPayment, setDownPayment] = useState<string | null>(); // 계약금
@@ -21,8 +25,6 @@ export default function Calculator() {
     (event: ChangeEvent<HTMLInputElement>) => {
       const inputNumber = parseInputValue(event.target.value);
       setDefaultDeposit(inputNumber.toLocaleString());
-      // setDownPayment('');
-      // setCalcDownPayment('');
 
       if (calcDownPayment && calcBalance && downPayment && balance) {
         setCalcDownPayment(() => {
@@ -86,7 +88,7 @@ export default function Calculator() {
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <div className="mb-2">
           <Label htmlFor="defaultDeposit" className="mr-2">
             기본 보증금
@@ -105,7 +107,7 @@ export default function Calculator() {
           ref={input}
         />
       </div>
-      <div className="mb-4">
+      <div className="mb-6">
         <div className="mb-2">
           <Label htmlFor="rent" className="mr-2">
             기본 월 임대료
@@ -122,7 +124,7 @@ export default function Calculator() {
           className="text-right border-red-500"
         />
       </div>
-      <div className="mb-4">
+      <div className="mb-6">
         <div className="mb-2">
           <Label htmlFor="downPayment" className="mr-2">
             계약금
@@ -156,7 +158,7 @@ export default function Calculator() {
           />
         </div>
       </div>
-      <div className="mb-4">
+      <div className="mb-6">
         <div className="mb-2 ">
           <Label htmlFor="balance" className="mr-2">
             잔금
@@ -182,11 +184,70 @@ export default function Calculator() {
           />
         </div>
       </div>
-      <div>
-        <Input type="number" placeholder="Enter a number" />
+      <div className="mb-6">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-3 mb-2">
+            <p className="flex items-center gap-1">
+              <Label>보증금</Label>
+              {isChange ? (
+                <FaArrowDown className="text-blue-600" />
+              ) : (
+                <FaArrowUp className="text-red-600" />
+              )}
+            </p>
+            <p className="flex items-center gap-1">
+              월세
+              {isChange ? (
+                <FaArrowUp className="text-red-600" />
+              ) : (
+                <FaArrowDown className="text-blue-600" />
+              )}
+            </p>
+            <TipAlertDialog title="보증금 하향, 월세 상향" body="" />
+          </div>
+          <Button onClick={toggleChange}>변경</Button>
+        </div>
+        <div className="flex items-center gap-2 mb-2 text-sm">
+          보증금의
+          <Input
+            type="text"
+            placeholder=""
+            maxLength={3}
+            className="w-16 h-8 text-right border-red-500"
+          />
+          % 까지 전환
+        </div>
+        <div className="flex items-center gap-2 mb-2 text-sm">
+          전환 이율
+          <Input
+            type="text"
+            placeholder=""
+            maxLength={3}
+            className="w-16 h-8 text-right border-red-500"
+          />
+          %
+        </div>
+        <div>
+          <div className="flex justify-between gap-2">
+            <p className="min-w-24">
+              <span className="text-blue-500">최소</span> 보증금:
+            </p>
+            <p>
+              <span className="mr-1 text-blue-500 break-all">0</span>원
+            </p>
+          </div>
+          <div className="flex justify-between gap-2">
+            <p className="min-w-24">
+              <span className="text-red-500">최대</span> 임대료:
+            </p>
+            <p>
+              <span className="mr-1 text-red-500 break-all">0</span>원
+            </p>
+          </div>
+        </div>
       </div>
       <div>
-        <Input type="number" placeholder="Enter a number" />
+        <Input type="text" placeholder="Enter a number" />
       </div>
     </div>
   );
