@@ -1,6 +1,6 @@
 'use client';
 import { parseInputValue, removeComma } from '@/lib/utils';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { TipAlertDialog } from './TipAlertDialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -17,47 +17,55 @@ export default function Calculator() {
   const LIMIT_NUMBER = 100;
 
   // 기본 보증금
-  const defaultHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const defaultHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const inputNumber = parseInputValue(event.target.value);
     setDefaultDeposit(inputNumber.toLocaleString());
     setDownPayment('');
     setCalcDownPayment('');
     // console.log(inputNumber);
-  };
+  }, []);
 
-  const defaultRentHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const inputNumber = parseInputValue(event.target.value);
-    setDefaultRent(inputNumber.toLocaleString());
-  };
+  const defaultRentHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const inputNumber = parseInputValue(event.target.value);
+      setDefaultRent(inputNumber.toLocaleString());
+    },
+    []
+  );
 
   // 계약금
-  const downPaymentHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!defaultDeposit) {
-      input.current?.focus();
-      alert('기본 보증금을 입력해주세요.');
-      return;
-    }
+  const downPaymentHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (!defaultDeposit) {
+        input.current?.focus();
+        alert('기본 보증금을 입력해주세요.');
+        return;
+      }
 
-    const inputNumber = event.target.value;
-    const percentNumber = +inputNumber / LIMIT_NUMBER; // 계약금 퍼센트
-    const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
+      const inputNumber = event.target.value;
+      const percentNumber = +inputNumber / LIMIT_NUMBER; // 계약금 퍼센트
+      const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
 
-    if (+inputNumber > LIMIT_NUMBER)
-      return alert('계약금은 100%를 초과할 수 없습니다.');
+      if (+inputNumber > LIMIT_NUMBER)
+        return alert('계약금은 100%를 초과할 수 없습니다.');
 
-    setDownPayment(inputNumber);
+      setDownPayment(inputNumber);
 
-    // 잔금 퍼센트
-    setBalance((LIMIT_NUMBER - +inputNumber!).toString());
+      // 잔금 퍼센트
+      setBalance((LIMIT_NUMBER - +inputNumber!).toString());
 
-    // 총 계약금
-    setCalcDownPayment((removeCommaDefault! * +percentNumber).toLocaleString());
+      // 총 계약금
+      setCalcDownPayment(
+        (removeCommaDefault! * +percentNumber).toLocaleString()
+      );
 
-    // 총 잔금
-    setCalcBalance(
-      (removeCommaDefault! * (1 - +percentNumber)).toLocaleString()
-    );
-  };
+      // 총 잔금
+      setCalcBalance(
+        (removeCommaDefault! * (1 - +percentNumber)).toLocaleString()
+      );
+    },
+    [defaultDeposit]
+  );
 
   return (
     <div>
