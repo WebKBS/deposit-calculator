@@ -17,8 +17,10 @@ export default function Calculator() {
   const [calcDownPayment, setCalcDownPayment] = useState<string | null>(); // 계산된 계약금
   const [balance, setBalance] = useState<string | null>(); // 잔금
   const [calcBalance, setCalcBalance] = useState<string | null>(); // 계산된 잔금
-  const [maxConversion, setMaxConversion] = useState<string | null>(); // 최대 전환금
-  const [conversion, setConversion] = useState<string | null>(); // 전환 이율
+  // const [maxConversion, setMaxConversion] = useState<string | null>(); // 최대 전환금
+  // const [conversion, setConversion] = useState<string | null>(); // 전환 이율
+  // const [minimumDeposit, setMinimumDeposit] = useState<string | null>(); // 최소 보증금
+  // const [maximumRent, setMaximumRent] = useState<string | null>(); // 최대 임대료
 
   const LIMIT_NUMBER = 100;
 
@@ -88,40 +90,41 @@ export default function Calculator() {
     [defaultDeposit]
   );
 
-  //최대 전환금
-  const maxConversionHandler = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      if (!defaultDeposit) {
-        input.current?.focus();
-        alert('기본 보증금을 입력해주세요.');
-        return;
-      }
+  // //최대 전환금
+  // const maxConversionHandler = useCallback(
+  //   (event: ChangeEvent<HTMLInputElement>) => {
+  //     if (!defaultDeposit) {
+  //       input.current?.focus();
+  //       alert('기본 보증금을 입력해주세요.');
+  //       return;
+  //     }
 
-      const inputNumber = event.target.value;
-      if (+inputNumber > LIMIT_NUMBER)
-        return alert(`전환금은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
+  //     const inputNumber = event.target.value;
+  //     if (+inputNumber > LIMIT_NUMBER)
+  //       return alert(`전환금은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
 
-      setMaxConversion(inputNumber);
-    },
-    [defaultDeposit]
-  );
+  //     setMinimumDeposit(inputNumber);
+  //   },
+  //   [defaultDeposit]
+  // );
 
-  // 전환 이율
-  const conversionHandler = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      if (!defaultDeposit) {
-        input.current?.focus();
-        alert('기본 보증금을 입력해주세요.');
-        return;
-      } else if (!maxConversion) {
-        alert('최대 전환금을 입력해주세요.');
-        return;
-      }
-      const inputNumber = event.target.value;
-      setConversion(inputNumber);
-    },
-    [defaultDeposit, maxConversion]
-  );
+  // // 전환 이율
+  // const conversionHandler = useCallback(
+  //   (event: ChangeEvent<HTMLInputElement>) => {
+  //     if (!defaultDeposit) {
+  //       input.current?.focus();
+  //       alert('기본 보증금을 입력해주세요.');
+  //       return;
+  //     } else if (!maxConversion) {
+  //       alert('최대 전환금을 입력해주세요.');
+  //       return;
+  //     }
+  //     const inputNumber = event.target.value;
+  //     setConversion(inputNumber);
+  //     console.log(conversion);
+  //   },
+  //   [defaultDeposit, maxConversion, conversion]
+  // );
 
   return (
     <div>
@@ -242,19 +245,19 @@ export default function Calculator() {
             </p>
             <TipAlertDialog title="보증금 하향, 월세 상향" body="" />
           </div>
-          <Button variant="outline" onClick={toggleChange}>
-            전환 변경
+          <Button className="px-4" onClick={toggleChange}>
+            전월세 변경
           </Button>
         </div>
         <div className="flex items-center gap-2 mb-2 text-sm">
-          보증금의
+          {!isChange ? '보증금의' : '임대료의'}
           <Input
             type="text"
             placeholder="%"
             maxLength={3}
             className="w-16 h-8 text-right border-red-500"
-            onChange={maxConversionHandler}
-            value={maxConversion || ''}
+            // onChange={maxConversionHandler}
+            // value={maxConversion || ''}
           />
           % 까지 전환
         </div>
@@ -265,8 +268,8 @@ export default function Calculator() {
             placeholder="%"
             maxLength={3}
             className="w-16 h-8 text-right border-red-500"
-            onChange={conversionHandler}
-            value={conversion || ''}
+            // onChange={conversionHandler}
+            // value={conversion || ''}
           />
           %
         </div>
