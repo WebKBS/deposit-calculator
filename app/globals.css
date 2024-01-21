@@ -79,7 +79,3 @@ html,
 body {
   height: 100%;
 }
-
-input {
-  touch-action: manipulation;
-}

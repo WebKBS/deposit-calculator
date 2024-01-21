@@ -14,6 +14,13 @@ export const metadata: Metadata = {
     'SH, 보증금, 전환, 계산기, 전세임대주택, 행복주택, 공공임대주택, 전세, 보증금전환계산기, 전세임대주택보증금전환계산기, 행복주택보증금전환계산기, 공공임대주택보증금전환계산기',
 };
 
+export const viewport = {
+  with: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: 'no',
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
