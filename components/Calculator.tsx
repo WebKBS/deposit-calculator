@@ -17,13 +17,30 @@ export default function Calculator() {
   const LIMIT_NUMBER = 100;
 
   // 기본 보증금
-  const defaultHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const inputNumber = parseInputValue(event.target.value);
-    setDefaultDeposit(inputNumber.toLocaleString());
-    setDownPayment('');
-    setCalcDownPayment('');
-    // console.log(inputNumber);
-  }, []);
+  const defaultHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const inputNumber = parseInputValue(event.target.value);
+      setDefaultDeposit(inputNumber.toLocaleString());
+      // setDownPayment('');
+      // setCalcDownPayment('');
+
+      if (calcDownPayment && calcBalance && downPayment && balance) {
+        setCalcDownPayment(() => {
+          // 계약금
+          const result =
+            inputNumber * +(+downPayment / LIMIT_NUMBER).toFixed(2);
+          return result.toLocaleString();
+        });
+
+        setCalcBalance(() => {
+          // 잔금
+          const result = inputNumber * +(+balance / LIMIT_NUMBER).toFixed(2);
+          return result.toLocaleString();
+        });
+      }
+    },
+    [calcDownPayment, calcBalance, downPayment, balance]
+  );
 
   const defaultRentHandler = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
