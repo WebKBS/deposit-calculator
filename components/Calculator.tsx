@@ -7,6 +7,7 @@ import { Label } from './ui/label';
 
 export default function Calculator() {
   const [defaultValue, setDefault] = useState<string | null>(); // 기본 보증금
+  const [defaultRent, setDefaultRent] = useState<string | null>(); // 기본 월 임대료
   const [downPayment, setDownPayment] = useState<string | null>(); // 계약금
   const [calcDownPayment, setCalcDownPayment] = useState<string | null>(); // 계산된 계약금
   const [balance, setBalance] = useState<string | null>(); // 잔금
@@ -19,6 +20,11 @@ export default function Calculator() {
     setDownPayment('');
     setCalcDownPayment('');
     // console.log(inputNumber);
+  };
+
+  const defaultRentHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputNumber = parseInputValue(event.target.value);
+    setDefaultRent(inputNumber.toLocaleString());
   };
 
   // 계약금
@@ -61,7 +67,24 @@ export default function Calculator() {
           value={defaultValue || ''}
           pattern="[0-9]*"
           inputMode="numeric"
-          className="text-right"
+          className="text-right border-red-500"
+        />
+      </div>
+      <div className="mb-4">
+        <div className="mb-2">
+          <Label htmlFor="rent" className="mr-2">
+            기본 월 임대료
+          </Label>
+        </div>
+        <Input
+          id="rent"
+          type="text"
+          placeholder="기본 월 임대료 입력"
+          onChange={defaultRentHandler}
+          value={defaultRent || ''}
+          pattern="[0-9]*"
+          inputMode="numeric"
+          className="text-right border-red-500"
         />
       </div>
       <div className="mb-4">
@@ -81,14 +104,14 @@ export default function Calculator() {
               value={downPayment || ''}
               pattern="[0-9]*"
               inputMode="numeric"
-              className="flex-1 w-20 text-right"
+              className="flex-1 w-20 text-right border-red-500"
               maxLength={3}
             />
             <span>%</span>
           </div>
           <Input
             readOnly
-            className="text-right"
+            className="text-right bg-gray-200 dark:bg-gray-900"
             placeholder="계약 금액"
             value={calcDownPayment || ''}
           />
@@ -108,14 +131,14 @@ export default function Calculator() {
               type="text"
               placeholder="잔금"
               value={balance || ''}
-              className="flex-1 w-20 text-right"
+              className="flex-1 w-20 text-right bg-gray-200 dark:bg-gray-900"
               readOnly
             />
             <span>%</span>
           </div>
           <Input
             readOnly
-            className="text-right"
+            className="text-right bg-gray-200 dark:bg-gray-900"
             placeholder="잔금"
             value={calcBalance || ''}
           />
