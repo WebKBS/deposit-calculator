@@ -21,6 +21,7 @@ export default function Calculator() {
   const [conversion, setConversion] = useState<string | null>(); // 전환 이율
   const [minimumDeposit, setMinimumDeposit] = useState<string | null>(); // 최소 보증금
   const [maximumRent, setMaximumRent] = useState<string>('0'); // 최대 임대료
+  const [desiredDeposit, setDesiredDeposit] = useState<string | null>(); // 희망 보증금
 
   const LIMIT_NUMBER = 100;
 
@@ -190,6 +191,15 @@ export default function Calculator() {
     [defaultDeposit, minimumDeposit, defaultRent, isChange]
   );
 
+  // 희망 보증금 계산
+  const desiredDepositHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const inputNumber = event.target.value;
+      setDesiredDeposit(inputNumber);
+    },
+    []
+  );
+
   const changeHandler = useCallback(() => {
     toggleChange();
 
@@ -350,23 +360,25 @@ export default function Calculator() {
           <div className="flex justify-between gap-2">
             <p className="min-w-24">
               {!isChange ? (
-                <span className="text-blue-500">최소</span>
+                <span className="text-lg font-semibold text-blue-500">
+                  최소
+                </span>
               ) : (
-                <span className="text-red-500">최대</span>
+                <span className="text-lg font-semibold text-red-500">최대</span>
               )}{' '}
               보증금:
             </p>
 
             {!isChange ? (
               <p>
-                <span className="mr-1 text-blue-500 break-all">
+                <span className="mr-1 text-xl font-semibold text-blue-500 break-all">
                   {maxConversion}
                 </span>
                 원
               </p>
             ) : (
               <p>
-                <span className="mr-1 text-red-500 break-all">
+                <span className="mr-1 text-xl font-semibold text-red-500 break-all">
                   {maxConversion}
                 </span>
                 원
@@ -376,22 +388,24 @@ export default function Calculator() {
           <div className="flex justify-between gap-2">
             <p className="min-w-24">
               {!isChange ? (
-                <span className="text-red-500">최대</span>
+                <span className="text-lg font-semibold text-red-500">최대</span>
               ) : (
-                <span className="text-blue-500">최소</span>
+                <span className="text-lg font-semibold text-blue-500">
+                  최소
+                </span>
               )}{' '}
               임대료:
             </p>
             {!isChange ? (
               <p>
-                <span className="mr-1 text-red-500 break-all">
+                <span className="mr-1 text-xl font-semibold text-red-500 break-all ">
                   {maximumRent}
                 </span>
                 원
               </p>
             ) : (
               <p>
-                <span className="mr-1 text-blue-500 break-all">
+                <span className="mr-1 text-xl font-semibold text-blue-500 break-all">
                   {maximumRent}
                 </span>
                 원
@@ -401,7 +415,27 @@ export default function Calculator() {
         </div>
       </div>
       <div>
-        <Input type="text" placeholder="Enter a number" />
+        <div className="py-2 mx-auto mb-4 text-center max-w-64">
+          <Label htmlFor="desiredDeposit" className="text-xl">
+            희망 보증금
+          </Label>
+          <Input
+            id="desiredDeposit"
+            type="text"
+            placeholder="희망 보증금 입력"
+            className="mt-2 text-right border-red-500"
+            onChange={desiredDepositHandler}
+          />
+        </div>
+        <div className="flex justify-between pb-12 mx-auto max-w-64">
+          <h3>예상 월 임대료:</h3>
+          <p className="flex items-center">
+            <strong className="mr-1 text-xl font-semibold text-red-500 break-all">
+              {maximumRent}
+            </strong>
+            원
+          </p>
+        </div>
       </div>
     </div>
   );
