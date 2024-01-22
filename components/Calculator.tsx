@@ -499,9 +499,6 @@ export default function Calculator() {
       </div>
       <div>
         <div className="py-2 mx-auto mb-2">
-          <Label htmlFor="desiredDeposit" className="text-xl">
-            희망 보증금
-          </Label>
           <div className="mb-2 text-right mt-2 text-sm ">
             현재 기본 보증금:{' '}
             <span className="text-green-500 dark:text-yellow-300">
@@ -522,22 +519,25 @@ export default function Calculator() {
               없습니다.
             </div>
           )}
-          <div>
+          <div className="flex items-center gap-4 mt-2">
+            <Label htmlFor="desiredDeposit" className="text-xl break-keep">
+              희망 보증금
+            </Label>
             <Input
               id="desiredDeposit"
               type="text"
               placeholder="희망 보증금 입력"
-              className="mt-2 text-right border-red-500"
+              className="text-right border-red-500 flex-1"
               onChange={desiredDepositHandler}
               value={desiredDeposit || ''}
             />
           </div>
         </div>
 
-        <div className="flex justify-between pb-12 mx-auto max-w-64">
-          <h3>예상 월 임대료:</h3>
+        <div className="flex justify-between items-center pb-12 mx-auto max-w-80">
+          <h3 className="font-semibold">예상 월 임대료:</h3>
           <p className="flex items-center">
-            <strong className="mr-1 text-xl font-semibold text-red-500 break-all">
+            <strong className="mr-1 text-2xl font-semibold text-red-500 break-all">
               {desiredDepositResult}
             </strong>
             원
