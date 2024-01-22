@@ -17,10 +17,10 @@ export default function Calculator() {
   const [calcDownPayment, setCalcDownPayment] = useState<string | null>(); // 계산된 계약금
   const [balance, setBalance] = useState<string | null>(); // 잔금
   const [calcBalance, setCalcBalance] = useState<string | null>(); // 계산된 잔금
-  // const [maxConversion, setMaxConversion] = useState<string | null>(); // 최대 전환금
-  // const [conversion, setConversion] = useState<string | null>(); // 전환 이율
-  // const [minimumDeposit, setMinimumDeposit] = useState<string | null>(); // 최소 보증금
-  // const [maximumRent, setMaximumRent] = useState<string | null>(); // 최대 임대료
+  const [maxConversion, setMaxConversion] = useState<string | null>(); // 최대 전환금
+  const [conversion, setConversion] = useState<string | null>(); // 전환 이율
+  const [minimumDeposit, setMinimumDeposit] = useState<string | null>(); // 최소 보증금
+  const [maximumRent, setMaximumRent] = useState<string | null>(); // 최대 임대료
 
   const LIMIT_NUMBER = 100;
 
@@ -91,40 +91,65 @@ export default function Calculator() {
   );
 
   // //최대 전환금
-  // const maxConversionHandler = useCallback(
-  //   (event: ChangeEvent<HTMLInputElement>) => {
-  //     if (!defaultDeposit) {
-  //       input.current?.focus();
-  //       alert('기본 보증금을 입력해주세요.');
-  //       return;
-  //     }
+  const maxConversionHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (!defaultDeposit) {
+        input.current?.focus();
+        alert('기본 보증금을 입력해주세요.');
+        return;
+      }
 
-  //     const inputNumber = event.target.value;
-  //     if (+inputNumber > LIMIT_NUMBER)
-  //       return alert(`전환금은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
+      const inputNumber = event.target.value;
+      if (+inputNumber > LIMIT_NUMBER)
+        return alert(`전환금은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
 
-  //     setMinimumDeposit(inputNumber);
-  //   },
-  //   [defaultDeposit]
-  // );
+      setMinimumDeposit(inputNumber);
+    },
+    [defaultDeposit]
+  );
 
   // // 전환 이율
-  // const conversionHandler = useCallback(
-  //   (event: ChangeEvent<HTMLInputElement>) => {
-  //     if (!defaultDeposit) {
-  //       input.current?.focus();
-  //       alert('기본 보증금을 입력해주세요.');
-  //       return;
-  //     } else if (!maxConversion) {
-  //       alert('최대 전환금을 입력해주세요.');
-  //       return;
-  //     }
-  //     const inputNumber = event.target.value;
-  //     setConversion(inputNumber);
-  //     console.log(conversion);
-  //   },
-  //   [defaultDeposit, maxConversion, conversion]
-  // );
+  const conversionHandler = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      // if (!defaultDeposit) {
+      //   input.current?.focus();
+      //   alert('기본 보증금을 입력해주세요.');
+      //   return;
+      // } else if (!minimumDeposit) {
+      //   alert('최대 전환금을 입력해주세요.');
+      //   return;
+      // }
+      const inputNumber = +event.target.value;
+      // if (+inputNumber > LIMIT_NUMBER)
+      //   return alert(`전환 이율은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
+
+      const percentNumber = inputNumber / LIMIT_NUMBER; // 전환 이율 퍼센트
+      const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
+      const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
+      const conversionValue =
+        (+removeCommaDefault * +minimumDeposit!) / LIMIT_NUMBER; // 최대 전환금
+
+      setConversion(inputNumber.toLocaleString());
+      setMaxConversion(conversionValue.toLocaleString());
+
+      console.log('removeCommaRent', removeCommaRent);
+      console.log('percentNumber', percentNumber);
+      console.log('removeCommaDefault', removeCommaDefault);
+      console.log('conversionValue', conversionValue);
+
+      const result = Math.floor(
+        removeCommaRent -
+          ((conversionValue - removeCommaDefault) * percentNumber) / 12
+        // conversionValue -
+        //   ((removeCommaDefault - conversionValue) * percentNumber) / 12
+      );
+
+      console.log('result', result);
+
+      setMaximumRent(result.toLocaleString());
+    },
+    [defaultDeposit, minimumDeposit, defaultRent]
+  );
 
   return (
     <div>
@@ -256,8 +281,8 @@ export default function Calculator() {
             placeholder="%"
             maxLength={3}
             className="w-16 h-8 text-right border-red-500"
-            // onChange={maxConversionHandler}
-            // value={maxConversion || ''}
+            onChange={maxConversionHandler}
+            value={minimumDeposit || ''}
           />
           % 까지 전환
         </div>
@@ -268,8 +293,8 @@ export default function Calculator() {
             placeholder="%"
             maxLength={3}
             className="w-16 h-8 text-right border-red-500"
-            // onChange={conversionHandler}
-            // value={conversion || ''}
+            onChange={conversionHandler}
+            value={conversion || ''}
           />
           %
         </div>
@@ -286,7 +311,10 @@ export default function Calculator() {
 
             {!isChange ? (
               <p>
-                <span className="mr-1 text-blue-500 break-all">0</span>원
+                <span className="mr-1 text-blue-500 break-all">
+                  {maxConversion}
+                </span>
+                원
               </p>
             ) : (
               <p>
@@ -305,7 +333,10 @@ export default function Calculator() {
             </p>
             {!isChange ? (
               <p>
-                <span className="mr-1 text-red-500 break-all">0</span>원
+                <span className="mr-1 text-red-500 break-all">
+                  {maximumRent}
+                </span>
+                원
               </p>
             ) : (
               <p>
