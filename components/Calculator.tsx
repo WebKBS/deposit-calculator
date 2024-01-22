@@ -33,15 +33,16 @@ export default function Calculator() {
       if (calcDownPayment && calcBalance && downPayment && balance) {
         setCalcDownPayment(() => {
           // 계약금
-          const result =
+          const resultRent =
             inputNumber * +(+downPayment / LIMIT_NUMBER).toFixed(2);
-          return result.toLocaleString();
+          return resultRent.toLocaleString();
         });
 
         setCalcBalance(() => {
           // 잔금
-          const result = inputNumber * +(+balance / LIMIT_NUMBER).toFixed(2);
-          return result.toLocaleString();
+          const resultRent =
+            inputNumber * +(+balance / LIMIT_NUMBER).toFixed(2);
+          return resultRent.toLocaleString();
         });
       }
     },
@@ -106,9 +107,48 @@ export default function Calculator() {
       setMinimumDeposit(inputNumber);
 
       if (!conversion) return console.log('conversion is null'); // 전환 이율이 없으면 종료
+
+      const percentNumber = +conversion / LIMIT_NUMBER; // 전환 이율 퍼센트
+      const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
+      const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
+
+      if (!isChange) {
+        const conversionValue =
+          (+removeCommaDefault * +inputNumber) / LIMIT_NUMBER; // 최소 보증금
+
+        setMaxConversion(conversionValue.toLocaleString());
+
+        const resultRent = Math.floor(
+          removeCommaRent -
+            ((conversionValue - removeCommaDefault) * percentNumber) / 12
+        );
+
+        console.log('resultRent', resultRent);
+        console.log('conversionValue', conversionValue);
+
+        setMaximumRent(resultRent.toLocaleString());
+      } else {
+        if (!percentNumber) return;
+
+        const resultRent = Math.floor((removeCommaRent * +inputNumber) / 100);
+        console.log(inputNumber);
+        console.log('resultRent', resultRent);
+
+        setMaximumRent(resultRent.toLocaleString());
+        const conversionValue =
+          ((removeCommaRent - resultRent) / percentNumber) * 12 +
+          removeCommaDefault;
+
+        setMaxConversion(conversionValue.toLocaleString());
+
+        console.log('conversionValue', conversionValue);
+      }
+
+      console.log('removeCommaDefault', removeCommaDefault);
+      console.log('removeCommaRent', removeCommaRent);
+      console.log('percentNumber', percentNumber);
     },
-    // [defaultDeposit]
-    [conversion]
+    [conversion, isChange, defaultDeposit, defaultRent]
   );
 
   // // 전환 이율
@@ -131,7 +171,6 @@ export default function Calculator() {
       const percentNumber = +inputNumber / LIMIT_NUMBER; // 전환 이율 퍼센트
       const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
       const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
-      const removeCommaMaximunRent = +removeComma(maximumRent!); // 최대 월 임대료 콤마 제거
 
       if (!isChange) {
         const conversionValue =
@@ -139,31 +178,33 @@ export default function Calculator() {
 
         setMaxConversion(conversionValue.toLocaleString());
 
-        const result = Math.floor(
+        const resultRent = Math.floor(
           removeCommaRent -
-            ((conversionValue - removeCommaDefault) * percentNumber) / 12
+            ((conversionValue - removeCommaDefault) * percentNumber) / 12 // 최대 임대료
         );
 
-        console.log('result', result);
+        console.log('resultRent', resultRent);
         console.log('conversionValue', conversionValue);
 
-        setMaximumRent(result.toLocaleString());
+        setMaximumRent(resultRent.toLocaleString());
       } else {
         if (!percentNumber) return;
-        const result = Math.floor((removeCommaRent * +minimumDeposit!) / 100);
+        const resultRent = Math.floor(
+          (removeCommaRent * +minimumDeposit!) / 100
+        ); // 최소 임대료
 
-        setMaximumRent(result.toLocaleString());
+        setMaximumRent(resultRent.toLocaleString());
         const conversionValue =
-          ((removeCommaRent - removeCommaMaximunRent) / percentNumber) * 12 +
+          ((removeCommaRent - resultRent) / percentNumber) * 12 +
           removeCommaDefault;
 
         setMaxConversion(conversionValue.toLocaleString());
 
-        console.log('result', result);
+        console.log('resultRent', resultRent);
         console.log('conversionValue', conversionValue);
       }
     },
-    [defaultDeposit, minimumDeposit, defaultRent, isChange, maximumRent]
+    [defaultDeposit, minimumDeposit, defaultRent, isChange]
   );
 
   const changeHandler = useCallback(() => {
