@@ -9,13 +9,15 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import Image, { StaticImageData } from 'next/image';
 
 interface TipAlertDialogProps {
   title: string;
   body: string;
+  image?: StaticImageData;
 }
 
-export function TipAlertDialog({ title, body }: TipAlertDialogProps) {
+export function TipAlertDialog({ title, body, image }: TipAlertDialogProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -26,7 +28,18 @@ export function TipAlertDialog({ title, body }: TipAlertDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{body}</AlertDialogDescription>
+          <AlertDialogDescription className="text-left break-keep">
+            {image && (
+              <Image
+                width={500}
+                height={500}
+                src={image}
+                alt={title}
+                className="w-full mb-4"
+              />
+            )}
+            {body}
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>닫기</AlertDialogCancel>

@@ -18,10 +18,14 @@ export default function MenuList() {
   return (
     <aside className="p-4">
       <nav>
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-2">
           {menuList.map((menu, index) => (
             <li key={index}>
-              <Link href={menu.href} className="text-sm" onClick={toggle}>
+              <Link
+                href={menu.href}
+                className="text-sm block p-2 hover:bg-gray-800 rounded-md"
+                onClick={toggle}
+              >
                 {menu.name}
               </Link>
             </li>

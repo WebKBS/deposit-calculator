@@ -1,6 +1,7 @@
 'use client';
 import { depositChange } from '@/lib/store';
 import { parseInputValue, removeComma } from '@/lib/utils';
+import defaultImage from '@/public/default-deposit.png';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { TipAlertDialog } from './TipAlertDialog';
@@ -299,7 +300,11 @@ export default function Calculator() {
           <Label htmlFor="defaultDeposit" className="mr-2">
             기본 보증금
           </Label>
-          <TipAlertDialog title="기본 보증금이란?" body="" />
+          <TipAlertDialog
+            title="기본 보증금이란?"
+            body="기본 보증금은 공고문 기준 임대 조건의 '계'에 있는 금액을 입력하시면 됩니다. 단위는 천단위입니다. 예) 76,320 = 76,320,000원"
+            image={defaultImage}
+          />
         </div>
         <Input
           id="defaultDeposit"
@@ -336,7 +341,10 @@ export default function Calculator() {
             계약금
           </Label>
 
-          <TipAlertDialog title="계약금이란?" body="" />
+          <TipAlertDialog
+            title="계약금이란?"
+            body="SH의 계약금은 보통 20% 이며, 계약금을 설정하시면 자동으로 금액이 입력됩니다. 단위는 %입니다. 예) 20 = 20%"
+          />
           <p className="my-2 text-xs text-green-600 dark:text-yellow-300">
             *계약금 비율을 입력하면 자동 입력됩니다.
           </p>
@@ -409,7 +417,10 @@ export default function Calculator() {
                 <FaArrowDown className="text-blue-600" />
               )}
             </p>
-            <TipAlertDialog title="보증금 하향, 월세 상향" body="" />
+            <TipAlertDialog
+              title="보증금, 임대료(월세) 상호전환"
+              body="SH 모집공고를 보시면 상호전환에 대한 내용이 적혀있습니다. 공고물 또는 제공하는 건물에 대해 모두 상호전환 비율이 다를 수 있으며, 입력하시는 비율에 따라 보증금과 임대료는 자동으로 입력됩니다. 전월세 변경으로 보증금 상향, 임대로 하향, 등 전환 계산 가능하며, 기본 보증금, 기본 월 임대료, 계약금 변경시 상호전환의 내용은 초기화 됩니다. 단위는 %이며 소수점까지 가능합니다. 예) 50.5 = 50.5%"
+            />
           </div>
           <Button className="px-4" onClick={changeHandler}>
             전월세 변경
@@ -532,6 +543,9 @@ export default function Calculator() {
               value={desiredDeposit || ''}
             />
           </div>
+          <p className="text-xs text-right mt-2">
+            *보통 100만원 단위 전환 가능
+          </p>
         </div>
 
         <div className="flex justify-between items-center pb-12 mx-auto max-w-80">
