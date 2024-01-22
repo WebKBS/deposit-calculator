@@ -29,7 +29,6 @@ export default function Calculator() {
 
   const resetValue = useCallback(() => {
     if (conversion || minimumDeposit) {
-      console.log('보증금있음');
       setConversion(null);
       setMinimumDeposit(null);
       setMaxConversion('0');
@@ -186,6 +185,12 @@ export default function Calculator() {
         alert('최대 전환금을 입력해주세요.');
         return;
       }
+      if (desiredDeposit && desiredDepositResult) {
+        setDesiredDeposit(null);
+        setDesiredDepositResult('0');
+        setError(false);
+      }
+
       const inputNumber = event.target.value;
       if (+inputNumber > LIMIT_NUMBER)
         return alert(`전환 이율은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
@@ -222,14 +227,26 @@ export default function Calculator() {
         setMaxConversion(conversionValue.toLocaleString());
       }
     },
-    [defaultDeposit, minimumDeposit, defaultRent, isChange]
+    [
+      defaultDeposit,
+      minimumDeposit,
+      defaultRent,
+      isChange,
+      desiredDeposit,
+      desiredDepositResult,
+    ]
   );
 
   // 희망 보증금 계산
   const desiredDepositHandler = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      if (!defaultDeposit || !defaultRent || !downPayment) {
-        input.current?.focus();
+      if (
+        !defaultDeposit ||
+        !defaultRent ||
+        !downPayment ||
+        !conversion ||
+        !minimumDeposit
+      ) {
         alert('모든 필드를 입력해주세요.');
         return;
       }
@@ -240,11 +257,6 @@ export default function Calculator() {
       const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
 
       setDesiredDeposit(inputNumber.toLocaleString());
-
-      console.log('removeCommaDefault', removeCommaDefault);
-      console.log('removeCommaRent', removeCommaRent);
-      console.log('percentConversion', percentConversion);
-      console.log('inputNumber', inputNumber);
 
       if (!isChange) {
         if (inputNumber > removeCommaDefault) {
@@ -263,9 +275,15 @@ export default function Calculator() {
         ((inputNumber - removeCommaDefault) * percentConversion) / 12;
 
       setDesiredDepositResult(result.toLocaleString());
-      console.log(result);
     },
-    [defaultDeposit, defaultRent, downPayment, conversion, isChange]
+    [
+      defaultDeposit,
+      defaultRent,
+      downPayment,
+      conversion,
+      isChange,
+      minimumDeposit,
+    ]
   );
 
   const changeHandler = useCallback(() => {
