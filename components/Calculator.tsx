@@ -123,16 +123,11 @@ export default function Calculator() {
             ((conversionValue - removeCommaDefault) * percentNumber) / 12
         );
 
-        console.log('resultRent', resultRent);
-        console.log('conversionValue', conversionValue);
-
         setMaximumRent(resultRent.toLocaleString());
       } else {
         if (!percentNumber) return;
 
         const resultRent = Math.floor((removeCommaRent * +inputNumber) / 100);
-        console.log(inputNumber);
-        console.log('resultRent', resultRent);
 
         setMaximumRent(resultRent.toLocaleString());
         const conversionValue =
@@ -140,13 +135,7 @@ export default function Calculator() {
           removeCommaDefault;
 
         setMaxConversion(conversionValue.toLocaleString());
-
-        console.log('conversionValue', conversionValue);
       }
-
-      console.log('removeCommaDefault', removeCommaDefault);
-      console.log('removeCommaRent', removeCommaRent);
-      console.log('percentNumber', percentNumber);
     },
     [conversion, isChange, defaultDeposit, defaultRent]
   );
@@ -183,9 +172,6 @@ export default function Calculator() {
             ((conversionValue - removeCommaDefault) * percentNumber) / 12 // 최대 임대료
         );
 
-        console.log('resultRent', resultRent);
-        console.log('conversionValue', conversionValue);
-
         setMaximumRent(resultRent.toLocaleString());
       } else {
         if (!percentNumber) return;
@@ -199,9 +185,6 @@ export default function Calculator() {
           removeCommaDefault;
 
         setMaxConversion(conversionValue.toLocaleString());
-
-        console.log('resultRent', resultRent);
-        console.log('conversionValue', conversionValue);
       }
     },
     [defaultDeposit, minimumDeposit, defaultRent, isChange]
