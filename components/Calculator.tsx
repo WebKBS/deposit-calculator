@@ -119,17 +119,17 @@ export default function Calculator() {
       //   alert('최대 전환금을 입력해주세요.');
       //   return;
       // }
-      const inputNumber = +event.target.value;
+      const inputNumber = event.target.value;
       // if (+inputNumber > LIMIT_NUMBER)
       //   return alert(`전환 이율은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
 
-      const percentNumber = inputNumber / LIMIT_NUMBER; // 전환 이율 퍼센트
+      const percentNumber = +inputNumber / LIMIT_NUMBER; // 전환 이율 퍼센트
       const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
       const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
       const conversionValue =
         (+removeCommaDefault * +minimumDeposit!) / LIMIT_NUMBER; // 최대 전환금
 
-      setConversion(inputNumber.toLocaleString());
+      setConversion(inputNumber);
       setMaxConversion(conversionValue.toLocaleString());
 
       console.log('removeCommaRent', removeCommaRent);
@@ -140,8 +140,6 @@ export default function Calculator() {
       const result = Math.floor(
         removeCommaRent -
           ((conversionValue - removeCommaDefault) * percentNumber) / 12
-        // conversionValue -
-        //   ((removeCommaDefault - conversionValue) * percentNumber) / 12
       );
 
       console.log('result', result);
@@ -279,7 +277,7 @@ export default function Calculator() {
           <Input
             type="text"
             placeholder="%"
-            maxLength={3}
+            maxLength={6}
             className="w-16 h-8 text-right border-red-500"
             onChange={maxConversionHandler}
             value={minimumDeposit || ''}
@@ -291,7 +289,7 @@ export default function Calculator() {
           <Input
             type="text"
             placeholder="%"
-            maxLength={3}
+            maxLength={6}
             className="w-16 h-8 text-right border-red-500"
             onChange={conversionHandler}
             value={conversion || ''}
