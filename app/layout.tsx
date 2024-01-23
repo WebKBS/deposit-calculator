@@ -13,7 +13,6 @@ const APP_TITLE = 'SH 보증금 전환 계산기';
 const APP_DESCRIPTION = '공공 전세임대주택 및 행복주택 보증금 상호전환 계산기';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://deposit-calculator-webkbs.vercel.app'),
   applicationName: APP_TITLE,
   title: {
     default: APP_TITLE,
