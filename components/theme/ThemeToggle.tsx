@@ -31,7 +31,14 @@ export default function ThemeToggle() {
 
   return (
     <div>
-      <Button size="icon" variant="secondary" onClick={toggleTheme}>
+      <Button
+        size="icon"
+        type="button"
+        variant="secondary"
+        onClick={toggleTheme}
+        aria-label="색상 테마 변경"
+        title="색상 테마 변경"
+      >
         {themeState}
       </Button>
     </div>

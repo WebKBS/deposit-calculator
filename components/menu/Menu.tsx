@@ -11,7 +11,13 @@ export default function Menu() {
 
   return (
     <>
-      <Button size="icon" variant="outline" onClick={toggle}>
+      <Button
+        size="icon"
+        variant="outline"
+        onClick={toggle}
+        aria-label="메뉴 열기"
+        title="메뉴 열기"
+      >
         {isOpen ? <IoMdClose size={24} /> : <IoMenu size={24} />}
       </Button>
       {isOpen && (

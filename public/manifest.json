@@ -1,0 +1,28 @@
+{
+  "id": "1",
+  "name": "SH 보증금 상호전환 계산기",
+  "short_name": "SH 보증금 상호전환 계산기",
+  "description": "SH 보증금 상호전환 계산기",
+  "icons": [
+    {
+      "src": "/public/app-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/public/app-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/public/app-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#333",
+  "background_color": "#000000",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

@@ -3,24 +3,88 @@ import Header from '@/components/header/Header';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
+const APP_TITLE = 'SH 보증금 전환 계산기';
+const APP_DESCRIPTION = '공공 전세임대주택 및 행복주택 보증금 상호전환 계산기';
+
 export const metadata: Metadata = {
-  title: 'SH 보증금 전환 계산기 ',
-  description: '공공 전세임대주택 및 행복주택 보증금 전환 계산기',
-  keywords:
-    'SH, 보증금, 전환, 계산기, 전세임대주택, 행복주택, 공공임대주택, 전세, 보증금전환계산기, 전세임대주택보증금전환계산기, 행복주택보증금전환계산기, 공공임대주택보증금전환계산기',
+  metadataBase: new URL('https://deposit-calculator-webkbs.vercel.app'),
+  applicationName: APP_TITLE,
+  title: {
+    default: APP_TITLE,
+    template: '%s | ' + APP_TITLE,
+  },
+  icons: {
+    icon: '/app-192.png',
+    apple: '/app-192.png',
+    shortcut: '/app-192.png',
+  },
+  description: APP_DESCRIPTION,
+  keywords: [
+    'SH',
+    '보증금',
+    '전환',
+    '계산기',
+    '전세임대주택',
+    '행복주택',
+    '공공임대주택',
+    '전세',
+    '보증금 전환 계산기',
+    '전세임대주택 보증금 전환 계산기',
+    '행복주택 보증금 전환 계산기',
+    '공공임대주택 보증금 전환 계산기',
+    '상호전환 계산기',
+    '보증금 상호전환 계산기',
+  ],
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    title: APP_TITLE,
+    statusBarStyle: 'default',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+    siteName: APP_TITLE,
+    images: [
+      {
+        url: '/app-192.png',
+        width: 192,
+        height: 192,
+        alt: APP_TITLE,
+      },
+    ],
+  },
+  twitter: {
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+    card: 'summary',
+    images: [
+      {
+        url: '/app-192.png',
+        width: 192,
+        height: 192,
+        alt: APP_TITLE,
+      },
+    ],
+  },
 };
 
-export const viewport = {
-  with: 'device-width',
+export const viewport: Viewport = {
+  width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  userScalable: 'no',
+  userScalable: false,
+  themeColor: '#333',
 };
 
 export default function RootLayout({
