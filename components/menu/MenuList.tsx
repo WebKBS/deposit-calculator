@@ -23,7 +23,7 @@ export default function MenuList() {
             <li key={index}>
               <Link
                 href={menu.href}
-                className="text-sm block p-2 hover:bg-gray-800 rounded-md"
+                className="text-sm block p-2 dark:hover:bg-gray-800 rounded-md hover:bg-gray-200"
                 onClick={toggle}
               >
                 {menu.name}

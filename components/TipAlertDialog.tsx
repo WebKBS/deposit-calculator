@@ -36,6 +36,7 @@ export function TipAlertDialog({ title, body, image }: TipAlertDialogProps) {
                 src={image}
                 alt={title}
                 className="w-full mb-4"
+                placeholder="blur"
               />
             )}
             {body}
