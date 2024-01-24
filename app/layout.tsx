@@ -57,11 +57,10 @@ export const metadata: Metadata = {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     siteName: APP_TITLE,
+    url: 'https://www.depos.kr/',
     images: [
       {
         url: '/app-192.png',
-        width: 192,
-        height: 192,
         alt: APP_TITLE,
       },
     ],
@@ -73,8 +72,6 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/app-192.png',
-        width: 192,
-        height: 192,
         alt: APP_TITLE,
       },
     ],
