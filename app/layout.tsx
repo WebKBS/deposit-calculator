@@ -60,7 +60,8 @@ export const metadata: Metadata = {
     url: 'https://www.depos.kr/',
     images: [
       {
-        url: '//app-192.png',
+        url: '/app-192.png',
+        href: '/app-192.png',
         alt: APP_TITLE,
       },
     ],
@@ -71,7 +72,8 @@ export const metadata: Metadata = {
     card: 'summary',
     images: [
       {
-        url: '//app-192.png',
+        url: '/app-192.png',
+        href: '/app-192.png',
         alt: APP_TITLE,
       },
     ],
