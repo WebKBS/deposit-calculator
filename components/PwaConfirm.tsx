@@ -44,7 +44,7 @@ export default function PwaConfirm() {
   return (
     <>
       {modal && (
-        <div className="fixed flex flex-col justify-center bottom-0 left-1/2 -translate-x-1/2 w-full max-w-sm h-40 rounded-t-xl border-2 backdrop-blur-xl p-6 animate-accordion-up">
+        <div className="fixed flex flex-col justify-center bottom-0 left-1/2 -translate-x-1/2 w-full max-w-sm h-40 rounded-t-xl border-2 backdrop-blur-xl p-6 animate-pwa-open">
           <h3 className="mb-6 text-center text-xl">
             간편하게 앱을 설치해 보세요!
           </h3>

@@ -71,10 +71,15 @@ const config = {
           to: { transform: 'translateX(0)' },
           from: { transform: 'translateX(100%)' },
         },
+        pwaopen: {
+          to: { transform: 'translateY(0) translateX(-50%)' },
+          from: { transform: 'translateY(100%) translateX(-50%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'pwa-open': 'pwaopen 0.3s ease-out',
       },
     },
   },
