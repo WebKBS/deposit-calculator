@@ -1,10 +1,12 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/header/Header';
 import { ThemeProvider } from '@/components/theme/theme-provider';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -110,6 +112,7 @@ export default function RootLayout({
           </div>
         </ThemeProvider>
       </body>
+      <GoogleAnalytics gaId="G-0LT6B06FR2" />
     </html>
   );
 }
