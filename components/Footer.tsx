@@ -13,7 +13,7 @@ export default function Footer() {
             className="flex items-center gap-1 justify-center"
           >
             <HiOutlineMail size={16} />
-            kbs21c1987@gmail.com
+            dev21c2020@gmail.com
           </a>
         </div>
       </div>
