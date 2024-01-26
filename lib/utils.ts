@@ -15,6 +15,6 @@ export const parseInputValue = (value: string): number => {
 };
 
 // 콤마 제거
-export const removeComma = (value: string) => {
-  return value?.replace(/,/g, '');
+export const removeCommaChangeNumber = (value: string) => {
+  return +value?.replace(/,/g, '')!;
 };
