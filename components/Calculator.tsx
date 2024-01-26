@@ -1,6 +1,6 @@
 'use client';
 import { depositChange } from '@/lib/store';
-import { parseInputValue, removeComma } from '@/lib/utils';
+import { parseInputValue, removeCommaChangeNumber } from '@/lib/utils';
 import defaultImage from '@/public/default-deposit.png';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
@@ -90,7 +90,7 @@ export default function Calculator() {
 
       const inputNumber = event.target.value;
       const percentNumber = +inputNumber / LIMIT_NUMBER; // 계약금 퍼센트
-      const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
+      const removeCommaDefault = removeCommaChangeNumber(defaultDeposit); // 기본 보증금 콤마 제거
 
       if (+inputNumber > LIMIT_NUMBER)
         return alert(`계약금은 ${LIMIT_NUMBER}%를 초과할 수 없습니다.`);
@@ -137,8 +137,8 @@ export default function Calculator() {
       if (!conversion) return console.log('conversion is null'); // 전환 이율이 없으면 종료
 
       const percentNumber = +conversion / LIMIT_NUMBER; // 전환 이율 퍼센트
-      const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
-      const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
+      const removeCommaDefault = removeCommaChangeNumber(defaultDeposit); // 기본 보증금 콤마 제거
+      const removeCommaRent = removeCommaChangeNumber(defaultRent!); // 기본 월 임대료 콤마 제거
 
       if (!isDepositChange) {
         const conversionValue =
@@ -199,8 +199,8 @@ export default function Calculator() {
       setConversion(inputNumber);
 
       const percentNumber = +inputNumber / LIMIT_NUMBER; // 전환 이율 퍼센트
-      const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
-      const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
+      const removeCommaDefault = removeCommaChangeNumber(defaultDeposit); // 기본 보증금 콤마 제거
+      const removeCommaRent = removeCommaChangeNumber(defaultRent!); // 기본 월 임대료 콤마 제거
 
       if (!isDepositChange) {
         const conversionValue =
@@ -254,8 +254,8 @@ export default function Calculator() {
 
       const inputNumber = parseInputValue(event.target.value);
       const percentConversion = +conversion! / LIMIT_NUMBER; // 전환 이율 퍼센트
-      const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
-      const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
+      const removeCommaDefault = removeCommaChangeNumber(defaultDeposit); // 기본 보증금 콤마 제거
+      const removeCommaRent = removeCommaChangeNumber(defaultRent!); // 기본 월 임대료 콤마 제거
 
       setDesiredDeposit(inputNumber.toLocaleString());
 
