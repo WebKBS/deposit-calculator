@@ -11,7 +11,7 @@ import { Label } from './ui/label';
 
 export default function Calculator() {
   const input = useRef<HTMLInputElement>(null);
-  const { isChange, toggleChange } = depositChange();
+  const { isDepositChange, toggleDepositChange } = depositChange();
   const [defaultDeposit, setDefaultDeposit] = useState<string | null>(); // 기본 보증금
   const [defaultRent, setDefaultRent] = useState<string | null>(); // 기본 월 임대료
   const [downPayment, setDownPayment] = useState<string | null>(); // 계약금
@@ -140,7 +140,7 @@ export default function Calculator() {
       const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
       const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
 
-      if (!isChange) {
+      if (!isDepositChange) {
         const conversionValue =
           (+removeCommaDefault * +inputNumber) / LIMIT_NUMBER; // 최소 보증금
 
@@ -167,7 +167,7 @@ export default function Calculator() {
     },
     [
       conversion,
-      isChange,
+      isDepositChange,
       defaultDeposit,
       defaultRent,
       desiredDeposit,
@@ -202,7 +202,7 @@ export default function Calculator() {
       const removeCommaDefault = +removeComma(defaultDeposit!); // 기본 보증금 콤마 제거
       const removeCommaRent = +removeComma(defaultRent!); // 기본 월 임대료 콤마 제거
 
-      if (!isChange) {
+      if (!isDepositChange) {
         const conversionValue =
           (+removeCommaDefault * +minimumDeposit!) / LIMIT_NUMBER; // 최대 보증금
 
@@ -232,7 +232,7 @@ export default function Calculator() {
       defaultDeposit,
       minimumDeposit,
       defaultRent,
-      isChange,
+      isDepositChange,
       desiredDeposit,
       desiredDepositResult,
     ]
@@ -259,7 +259,7 @@ export default function Calculator() {
 
       setDesiredDeposit(inputNumber.toLocaleString());
 
-      if (!isChange) {
+      if (!isDepositChange) {
         if (inputNumber > removeCommaDefault) {
           setError(true);
           return;
@@ -282,16 +282,16 @@ export default function Calculator() {
       defaultRent,
       downPayment,
       conversion,
-      isChange,
+      isDepositChange,
       minimumDeposit,
     ]
   );
 
   const changeHandler = useCallback(() => {
-    toggleChange();
+    toggleDepositChange();
 
     resetValue();
-  }, [toggleChange, resetValue]);
+  }, [toggleDepositChange, resetValue]);
 
   return (
     <div>
@@ -403,7 +403,7 @@ export default function Calculator() {
           <div className="flex items-center gap-3">
             <p className="flex items-center gap-1">
               <Label>보증금</Label>
-              {!isChange ? (
+              {!isDepositChange ? (
                 <FaArrowDown className="text-blue-600" />
               ) : (
                 <FaArrowUp className="text-red-600" />
@@ -411,7 +411,7 @@ export default function Calculator() {
             </p>
             <p className="flex items-center gap-1">
               월세
-              {!isChange ? (
+              {!isDepositChange ? (
                 <FaArrowUp className="text-red-600" />
               ) : (
                 <FaArrowDown className="text-blue-600" />
@@ -427,7 +427,7 @@ export default function Calculator() {
           </Button>
         </div>
         <div className="flex items-center gap-2 mb-2 text-sm">
-          {!isChange ? '보증금의' : '임대료의'}
+          {!isDepositChange ? '보증금의' : '임대료의'}
           <Input
             type="text"
             placeholder="%"
@@ -453,7 +453,7 @@ export default function Calculator() {
         <div>
           <div className="flex justify-between gap-2">
             <p className="min-w-24">
-              {!isChange ? (
+              {!isDepositChange ? (
                 <span className="text-lg font-semibold text-blue-500">
                   최소
                 </span>
@@ -463,7 +463,7 @@ export default function Calculator() {
               보증금:
             </p>
 
-            {!isChange ? (
+            {!isDepositChange ? (
               <p>
                 <span className="mr-1 text-xl font-semibold text-blue-500 break-all">
                   {maxConversion}
@@ -481,7 +481,7 @@ export default function Calculator() {
           </div>
           <div className="flex justify-between gap-2">
             <p className="min-w-24">
-              {!isChange ? (
+              {!isDepositChange ? (
                 <span className="text-lg font-semibold text-red-500">최대</span>
               ) : (
                 <span className="text-lg font-semibold text-blue-500">
@@ -490,7 +490,7 @@ export default function Calculator() {
               )}{' '}
               임대료:
             </p>
-            {!isChange ? (
+            {!isDepositChange ? (
               <p>
                 <span className="mr-1 text-xl font-semibold text-red-500 break-all ">
                   {maximumRent}
@@ -522,7 +522,7 @@ export default function Calculator() {
               * 희망보증금은{' '}
               <span className="dark:text-white text-black">기본 보증금</span>{' '}
               보다{' '}
-              {!isChange ? (
+              {!isDepositChange ? (
                 <span className="text-red-500">높을 수</span>
               ) : (
                 <span className="text-blue-500">낮을 수</span>
