@@ -68,6 +68,7 @@ export default function Calculator() {
           ...calcValues,
           calcDownPayment: updatedCalcDownPayment.toLocaleString(),
           calcBalance: updatedCalcBalance.toLocaleString(),
+          calcDesiredDeposit: '', // 예상 월 임대료 초기화
         });
       }
     },
