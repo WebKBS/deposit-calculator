@@ -464,7 +464,7 @@ export default function Calculator() {
           type="text"
           placeholder="기본 보증금 입력"
           pattern="[0-9]*"
-          inputMode="numeric"
+          inputMode="decimal"
           className="text-right border-red-500"
           ref={defaultInput}
           onChange={handleDefaultDeposit}
