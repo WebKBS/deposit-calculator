@@ -152,7 +152,7 @@ export default function Calculator() {
         return;
       }
 
-      const maxConversionRate = parseInputNumber(target.value); // 현재 문자열 값
+      const maxConversionRate = target.value; // 현재 문자열 값
 
       // 최대 상호전환 비율이 100%를 초과할 경우
       if (+maxConversionRate > LIMIT_PERCENT) {
@@ -258,7 +258,7 @@ export default function Calculator() {
         return;
       }
 
-      const conversionRate = parseInputNumber(target.value); // 현재 문자열 값
+      const conversionRate = target.value; // 현재 문자열 값
 
       // 전환 비율이 100%를 초과할 경우
       if (+conversionRate > LIMIT_PERCENT) {
