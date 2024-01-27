@@ -64,7 +64,7 @@ export default function Calculator() {
   // 계약금 계산
   const handleDownPayment = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
-      const downPayment = target.value; // 현재 문자열 값
+      const downPayment = parseInputNumber(target.value); // 현재 문자열 값
 
       // 기본 보증금이 입력되지 않았을 경우
       if (!enteredInput.defaultDeposit) {
@@ -87,7 +87,7 @@ export default function Calculator() {
       setEnteredInput({
         ...enteredInput,
         balance: (LIMIT_PERCENT - +downPayment).toString(),
-        downPayment: downPayment,
+        downPayment: String(downPayment),
       });
 
       // 계약금 계산 및 잔금 계산
@@ -121,7 +121,7 @@ export default function Calculator() {
         return;
       }
 
-      const maxConversionRate = target.value; // 현재 문자열 값
+      const maxConversionRate = parseInputNumber(target.value); // 현재 문자열 값
 
       // 최대 상호전환 비율이 100%를 초과할 경우
       if (+maxConversionRate > LIMIT_PERCENT) {
@@ -131,7 +131,7 @@ export default function Calculator() {
 
       setEnteredInput({
         ...enteredInput,
-        maxConversionRate: maxConversionRate,
+        maxConversionRate: String(maxConversionRate),
         desiredDeposit: '', // 희망 보증금 초기화
       });
 
@@ -227,7 +227,7 @@ export default function Calculator() {
         return;
       }
 
-      const conversionRate = target.value; // 현재 문자열 값
+      const conversionRate = parseInputNumber(target.value); // 현재 문자열 값
 
       // 전환 비율이 100%를 초과할 경우
       if (+conversionRate > LIMIT_PERCENT) {
@@ -237,7 +237,7 @@ export default function Calculator() {
 
       setEnteredInput({
         ...enteredInput,
-        conversionRate: conversionRate,
+        conversionRate: String(conversionRate),
         desiredDeposit: '', // 희망 보증금 초기화
       });
 
