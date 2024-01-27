@@ -10,11 +10,11 @@ export function cn(...inputs: ClassValue[]) {
  * @param value - 값
  * @returns
  */
-export const parseInputValue = (value: string): number => {
+export const parseInputNumber = (value: string): number => {
   return parseFloat(value?.replace(/,/g, '')) || 0;
 };
 
 // 콤마 제거
-export const removeComma = (value: string) => {
-  return value?.replace(/,/g, '');
+export const removeCommaAndConvert = (value: string) => {
+  return +value?.replace(/,/g, '')!;
 };

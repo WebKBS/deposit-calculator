@@ -5,8 +5,8 @@ interface MenuState {
   toggle: () => void;
 }
 interface DepositChange {
-  isChange: boolean;
-  toggleChange: () => void;
+  isDepositChange: boolean;
+  setToggleDepositChange: () => void;
 }
 
 export const useMenu = create<MenuState>((set) => ({
@@ -14,7 +14,8 @@ export const useMenu = create<MenuState>((set) => ({
   toggle: () => set((state) => ({ isOpen: !state.isOpen })),
 }));
 
-export const depositChange = create<DepositChange>((set) => ({
-  isChange: false,
-  toggleChange: () => set((state) => ({ isChange: !state.isChange })),
+export const useDepositChange = create<DepositChange>((set) => ({
+  isDepositChange: false,
+  setToggleDepositChange: () =>
+    set((state) => ({ isDepositChange: !state.isDepositChange })),
 }));
