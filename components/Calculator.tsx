@@ -47,9 +47,31 @@ export default function Calculator() {
       setEnteredInput({
         ...enteredInput,
         defaultDeposit: defaultDeposit.toLocaleString(),
+        maxConversionRate: '', // 최대 상호전환 비율 초기화
+        conversionRate: '', // 상호전환 비율 초기화
+        desiredDeposit: '', // 희망 보증금 초기화
       });
+
+      if (
+        enteredInput.downPayment &&
+        enteredInput.balance &&
+        calcValues.calcDownPayment &&
+        calcValues.calcBalance
+      ) {
+        const updatedCalcDownPayment =
+          defaultDeposit * (+enteredInput.downPayment / LIMIT_PERCENT);
+
+        const updatedCalcBalance =
+          defaultDeposit * (+enteredInput.balance / LIMIT_PERCENT);
+
+        setCalcValues({
+          ...calcValues,
+          calcDownPayment: updatedCalcDownPayment.toLocaleString(),
+          calcBalance: updatedCalcBalance.toLocaleString(),
+        });
+      }
     },
-    [enteredInput]
+    [enteredInput, calcValues]
   );
 
   // 기본 월 임대료 계산
@@ -58,6 +80,14 @@ export default function Calculator() {
     setEnteredInput({
       ...enteredInput,
       defaultRent: defaultRent.toLocaleString(),
+      maxConversionRate: '', // 최대 상호전환 비율 초기화
+      conversionRate: '', // 상호전환 비율 초기화
+      desiredDeposit: '', // 희망 보증금 초기화
+    });
+
+    setCalcValues({
+      ...calcValues,
+      calcDesiredDeposit: '', // 예상 월 임대료 초기화
     });
   };
 
