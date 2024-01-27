@@ -463,7 +463,7 @@ export default function Calculator() {
           id="defaultDeposit"
           type="text"
           placeholder="기본 보증금 입력"
-          pattern="[0-9]*"
+          pattern="[0-9.]*"
           inputMode="numeric"
           className="text-right border-red-500"
           ref={defaultInput}
@@ -482,7 +482,7 @@ export default function Calculator() {
           id="rent"
           type="text"
           placeholder="기본 월 임대료 입력"
-          pattern="[0-9]*"
+          pattern="[0-9.]*"
           inputMode="numeric"
           className="text-right border-red-500"
           onChange={handleDefaultRent}
@@ -510,7 +510,7 @@ export default function Calculator() {
               id="downPayment"
               type="text"
               placeholder="계약금"
-              pattern="[0-9]*"
+              pattern="[0-9.]*"
               inputMode="numeric"
               className="flex-1 w-20 text-right border-red-500"
               maxLength={3}
