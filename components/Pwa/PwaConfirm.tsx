@@ -9,13 +9,13 @@ export default function PwaConfirm() {
 
   useEffect(() => {
     if (navigator.userAgent.match(/iPad|iPhone|iPod/i)) {
-      // iOS device detected
       console.log('This is iOS.');
       if (!navigator.userAgent.match(/Chrome/i)) {
-        // Safari browser on iOS detected
-        console.log('크롬이 아닙니다.');
-        // Your logic for Safari on iOS goes here
+        console.log('모바일에서 크롬이 아닙니다.');
       }
+    }
+    if (!navigator.userAgent.match(/Chrome/i)) {
+      console.log('pc에서 크롬이 아닙니다.');
     }
 
     const handlePrompt = (event: any) => {
