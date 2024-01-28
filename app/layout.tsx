@@ -1,5 +1,5 @@
-import Footer from '@/components/Footer/Footer';
-import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer';
+
 import { ThemeProvider } from '@/components/Theme/theme-provider';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/react';
@@ -7,6 +7,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 
+import Header from '@/components/Header';
 import PwaConfirm from '@/components/Pwa/PwaConfirm';
 import './globals.css';
 
