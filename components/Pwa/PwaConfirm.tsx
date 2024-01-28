@@ -8,6 +8,16 @@ export default function PwaConfirm() {
   const [prompt, setPrompt] = useState<any>(null);
 
   useEffect(() => {
+    if (navigator.userAgent.match(/iPad|iPhone|iPod/i)) {
+      // iOS device detected
+      console.log('This is iOS.');
+      if (!navigator.userAgent.match(/Chrome/i)) {
+        // Safari browser on iOS detected
+        console.log('크롬이 아닙니다.');
+        // Your logic for Safari on iOS goes here
+      }
+    }
+
     const handlePrompt = (event: any) => {
       event.preventDefault();
       setPrompt(event);
