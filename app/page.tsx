@@ -14,7 +14,6 @@ export default function Home() {
         <p className="text-xs text-right text-green-600 dark:text-yellow-300">
           *빨간색 부분만 입력하세요.
         </p>
-        <FormSkeleton />
         <Suspense fallback={<FormSkeleton />}>
           <Calculator />
         </Suspense>
