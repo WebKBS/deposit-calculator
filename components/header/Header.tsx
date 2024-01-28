@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Menu from '../menu/Menu';
-import ThemeToggle from '../theme/ThemeToggle';
+import Menu from '../Menu/Menu';
+import ThemeToggle from '../Theme/ThemeToggle';
 import LogoChange from './LogoChange';
 
 export default function Header() {

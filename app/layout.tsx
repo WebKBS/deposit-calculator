@@ -1,13 +1,13 @@
-import Footer from '@/components/Footer';
-import Header from '@/components/header/Header';
-import { ThemeProvider } from '@/components/theme/theme-provider';
+import Footer from '@/components/Footer/Footer';
+import Header from '@/components/Header/Header';
+import { ThemeProvider } from '@/components/Theme/theme-provider';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 
-import PwaConfirm from '@/components/PwaConfirm';
+import PwaConfirm from '@/components/Pwa/PwaConfirm';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });

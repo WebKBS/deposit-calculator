@@ -1,5 +1,5 @@
 import Calculator from '@/components/Calculator';
-import FormSkeleton from '@/components/FormSkeleton';
+import FormSkeleton from '@/components/Skeleton/FormSkeleton';
 import { Suspense } from 'react';
 
 export default function Home() {

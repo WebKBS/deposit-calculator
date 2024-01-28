@@ -4,7 +4,7 @@ import defaultImage from '@/public/default-deposit.png';
 import { parseInputNumber, removeCommaAndConvert } from '@/utils/numberUtils';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
-import { TipAlertDialog } from './TipAlertDialog';
+import { TipAlertDialog } from './Modal/TipAlertDialog';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
