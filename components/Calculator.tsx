@@ -2,6 +2,7 @@
 import defaultImage from '@/public/default-deposit.png';
 import { useDepositChange } from '@/store/store';
 import { parseInputNumber, removeCommaAndConvert } from '@/utils/numberUtils';
+import { convertDepositAndBalance } from '@/utils/sh/calculator';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { TipAlertDialog } from './Modal/TipAlertDialog';
@@ -52,17 +53,24 @@ export default function Calculator() {
         desiredDeposit: '', // 희망 보증금 초기화
       });
 
+      // input값이 있을 때
       if (
         enteredInput.downPayment &&
         enteredInput.balance &&
         calcValues.calcDownPayment &&
         calcValues.calcBalance
       ) {
-        const updatedCalcDownPayment =
-          defaultDeposit * (+enteredInput.downPayment / LIMIT_PERCENT);
+        // 계약금 자동 계산
+        const updatedCalcDownPayment = convertDepositAndBalance(
+          defaultDeposit,
+          +enteredInput.downPayment
+        );
 
-        const updatedCalcBalance =
-          defaultDeposit * (+enteredInput.balance / LIMIT_PERCENT);
+        // 잔금 자동 계산
+        const updatedCalcBalance = convertDepositAndBalance(
+          defaultDeposit,
+          +enteredInput.balance
+        );
 
         setCalcValues({
           ...calcValues,
