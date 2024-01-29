@@ -9,6 +9,7 @@ import { Inter } from 'next/font/google';
 
 import Header from '@/components/Header/Header';
 import PwaConfirm from '@/components/Pwa/PwaConfirm';
+import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -117,6 +118,7 @@ export default function RootLayout({
           </div>
         </ThemeProvider>
         <PwaConfirm />
+        <Toaster />
       </body>
       <GoogleAnalytics gaId="G-0LT6B06FR2" />
     </html>

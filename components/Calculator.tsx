@@ -5,6 +5,7 @@ import { parseInputNumber, removeCommaAndConvert } from '@/utils/numberUtils';
 import { convertDepositAndBalance } from '@/utils/sh/calculator';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { toast } from 'sonner';
 import { TipAlertDialog } from './Modal/TipAlertDialog';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -86,17 +87,33 @@ export default function Calculator() {
   // 기본 월 임대료 계산
   const handleDefaultRent = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const defaultRent = parseInputNumber(target.value); // 입력값을 숫자로 변환
+
+    // 상호전환 input값이 있을 경우 초기화 및 메세지
+    if (
+      enteredInput.maxConversionRate !== '' ||
+      enteredInput.conversionRate !== ''
+    ) {
+      toast('상호전환 계산이 초기화 되었습니다.', {
+        action: {
+          label: '확인',
+          onClick: () => console.log('toast closed'),
+        },
+      });
+
+      setCalcValues({
+        ...calcValues,
+        calcDeposit: '0', // 계산된 보증금 초기화
+        calcRent: '0', // 계산된 임대료 초기화
+        calcDesiredDeposit: '', // 예상 월 임대료 초기화
+      });
+    }
+
     setEnteredInput({
       ...enteredInput,
       defaultRent: defaultRent.toLocaleString(),
       maxConversionRate: '', // 최대 상호전환 비율 초기화
       conversionRate: '', // 상호전환 비율 초기화
       desiredDeposit: '', // 희망 보증금 초기화
-    });
-
-    setCalcValues({
-      ...calcValues,
-      calcDesiredDeposit: '', // 예상 월 임대료 초기화
     });
   };
 
