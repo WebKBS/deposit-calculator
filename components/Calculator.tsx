@@ -782,6 +782,8 @@ export default function Calculator() {
             </Label>
             <Input
               id="desiredDeposit"
+              pattern="[0-9]*"
+              inputMode="numeric"
               type="text"
               placeholder="희망 보증금 입력"
               className="text-right border-red-500 flex-1"
