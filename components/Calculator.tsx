@@ -47,7 +47,7 @@ export default function Calculator() {
     calcDesiredDeposit: '', // 계산된 희망 보증금
   });
 
-  const [error, setError] = useState(false); // 에러 메세지
+  const [error, setError] = useState(false);
 
   // 초기화 함수
   const resetState = useCallback(() => {
