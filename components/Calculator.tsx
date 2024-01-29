@@ -2,7 +2,10 @@
 import defaultImage from '@/public/default-deposit.png';
 import { useDepositChange } from '@/store/store';
 import { parseInputNumber, removeCommaAndConvert } from '@/utils/numberUtils';
-import { convertDepositAndBalance } from '@/utils/sh/calculator';
+import {
+  convertDepositAndBalance,
+  percentageConversion,
+} from '@/utils/sh/calculator';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { toast } from 'sonner';
@@ -129,7 +132,7 @@ export default function Calculator() {
         return;
       }
 
-      const downPaymentPercent = +downPayment / 100; // 계약금 비율
+      const downPaymentPercent = percentageConversion(downPayment); // 계약금 비율
       const removeCommaDefaultDeposit = removeCommaAndConvert(
         enteredInput.defaultDeposit
       ); // 기본 보증금 콤마 제거
@@ -140,24 +143,34 @@ export default function Calculator() {
         return;
       }
 
+      // 잔금 퍼센트 계산
+      // 잔금 = 100% - 계약금 비율
+      const calcBalancePercent = LIMIT_PERCENT - downPayment;
+
+      // 계약금 자동 계산
+      // 계약금 = 기본 보증금 * 계약금 비율
+      const calcDownPaymentValue = convertDepositAndBalance(
+        removeCommaDefaultDeposit,
+        downPayment
+      );
+
+      // 잔금 자동 계산
+      // 잔금 = 기본 보증금 * 잔금 비율
+      const calcBalanceValue = convertDepositAndBalance(
+        removeCommaDefaultDeposit,
+        calcBalancePercent
+      );
+
       setEnteredInput({
         ...enteredInput,
-        balance: (LIMIT_PERCENT - +downPayment).toString(),
+        balance: calcBalancePercent.toString(),
         downPayment: String(downPayment),
       });
 
-      // 계약금 계산 및 잔금 계산
-      // 계약금 = 기본 보증금 * 계약금 비율
-      // 잔금 = 기본 보증금 * (1 - 계약금 비율)
       setCalcValues({
         ...calcValues,
-        calcDownPayment: (
-          removeCommaDefaultDeposit * downPaymentPercent
-        ).toLocaleString(),
-        calcBalance: (
-          removeCommaDefaultDeposit *
-          (1 - downPaymentPercent)
-        ).toLocaleString(),
+        calcDownPayment: calcDownPaymentValue.toLocaleString(),
+        calcBalance: calcBalanceValue.toLocaleString(),
       });
     },
 
