@@ -405,25 +405,42 @@ export default function Calculator() {
   // 희망 보증금 계산
   const handleDesiredDeposit = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
-      if (!enteredInput.defaultDeposit) {
+      if (
+        inputCheckAlert(
+          enteredInput.defaultDeposit,
+          '기본 보증금을 입력해주세요.'
+        )
+      ) {
         defaultInput.current?.focus();
-        alert('기본 보증금을 입력해주세요.');
         return;
-      } else if (!enteredInput.defaultRent) {
+      } else if (
+        inputCheckAlert(
+          enteredInput.defaultRent,
+          '기본 월 임대료를 입력해주세요.'
+        )
+      ) {
         defaultRentInput.current?.focus();
-        alert('기본 월 임대료를 입력해주세요.');
         return;
-      } else if (!enteredInput.downPayment) {
+      } else if (
+        inputCheckAlert(enteredInput.downPayment, '계약금을 입력해주세요.')
+      ) {
         downPaymentInput.current?.focus();
-        alert('계약금을 입력해주세요.');
         return;
-      } else if (!enteredInput.maxConversionRate) {
+      } else if (
+        inputCheckAlert(
+          enteredInput.maxConversionRate,
+          '최대 상호전환 비율을 입력해주세요.'
+        )
+      ) {
         maxConversionRateInput.current?.focus();
-        alert('최대 상호전환 비율을 입력해주세요.');
         return;
-      } else if (!enteredInput.conversionRate) {
+      } else if (
+        inputCheckAlert(
+          enteredInput.conversionRate,
+          '전환 이율을 입력해주세요.'
+        )
+      ) {
         conversionRateInput.current?.focus();
-        alert('전환 이율을 입력해주세요.');
         return;
       }
 
