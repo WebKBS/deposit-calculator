@@ -4,6 +4,7 @@ import { useDepositChange } from '@/store/store';
 import { parseInputNumber, removeCommaAndConvert } from '@/utils/numberUtils';
 import {
   conversionAmount,
+  maxConversionRateAmount,
   maximumMonthlyRentAmount,
   percentageConversion,
 } from '@/utils/sh/calculator';
@@ -254,13 +255,6 @@ export default function Calculator() {
             +enteredInput.conversionRate
           );
 
-          // const maximumRentValue = Math.floor(
-          //   removeCommaDefaultRent -
-          //     ((minimumDepositValue - removeCommaDefaultDeposit) *
-          //       conversionRatePercent) /
-          //       12
-          // );
-
           setCalcValues({
             ...calcValues,
             calcDesiredDeposit: '', // 예상 월 임대료 초기화
@@ -284,15 +278,12 @@ export default function Calculator() {
 
         // 전환 이율 입력값이 있을 경우
         if (enteredInput.conversionRate) {
-          // 최대 보증금 계산 = ((기본 월 임대료 - 최소 임대료) / 전환 이율 퍼센트) * 12 + 최소 보증금
-
-          // console.log(minimumRentValue);
-
-          const maximumDepositValue =
-            ((removeCommaDefaultRent - minimumRentValue) /
-              conversionRatePercent) *
-              12 +
-            removeCommaDefaultDeposit;
+          const maximumDepositValue = maxConversionRateAmount(
+            removeCommaDefaultRent,
+            minimumRentValue,
+            removeCommaDefaultDeposit,
+            +enteredInput.conversionRate
+          );
 
           setCalcValues({
             ...calcValues,
@@ -309,17 +300,29 @@ export default function Calculator() {
   // 전환 이율
   const handleConversionRate = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
-      if (!enteredInput.defaultDeposit) {
+      if (
+        inputCheckAlert(
+          enteredInput.defaultDeposit,
+          '기본 보증금을 입력해주세요.'
+        )
+      ) {
         defaultInput.current?.focus();
-        alert('기본 보증금을 입력해주세요.');
         return;
-      } else if (!enteredInput.defaultRent) {
+      } else if (
+        inputCheckAlert(
+          enteredInput.defaultRent,
+          '기본 월 임대료를 입력해주세요.'
+        )
+      ) {
         defaultRentInput.current?.focus();
-        alert('기본 월 임대료를 입력해주세요.');
         return;
-      } else if (!enteredInput.maxConversionRate) {
+      } else if (
+        inputCheckAlert(
+          enteredInput.maxConversionRate,
+          '최대 상호전환 비율을 입력해주세요.'
+        )
+      ) {
         maxConversionRateInput.current?.focus();
-        alert('최대 상호전환 비율을 입력해주세요.');
         return;
       }
 
