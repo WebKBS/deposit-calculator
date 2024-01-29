@@ -4,6 +4,7 @@ import { useDepositChange } from '@/store/store';
 import { parseInputNumber, removeCommaAndConvert } from '@/utils/numberUtils';
 import {
   conversionAmount,
+  desiredDepositAmount,
   maxConversionRateAmount,
   maximumMonthlyRentAmount,
   minimumMonthlyRentAmount,
@@ -444,22 +445,24 @@ export default function Calculator() {
         return;
       }
 
-      const desiredDepositInputValue = parseInputNumber(target.value); // 입력값을 숫자로 변환
+      const desiredDepositInputValue = parseInputNumber(target.value);
 
       setEnteredInput({
         ...enteredInput,
         desiredDeposit: desiredDepositInputValue.toLocaleString(),
       });
 
-      const conversionRatePercent =
-        +enteredInput.conversionRate / LIMIT_PERCENT; // 전환 이율 퍼센트
+      // 기본 보증금 콤마 제거
       const removeCommaDefaultDeposit = removeCommaAndConvert(
         enteredInput.defaultDeposit
-      ); // 기본 보증금 콤마 제거
+      );
+
+      // 기본 월 임대료 콤마 제거
       const removeCommaDefaultRent = removeCommaAndConvert(
         enteredInput.defaultRent
-      ); // 기본 월 임대료 콤마 제거
+      );
 
+      // 희망 보증금이 0일 경우
       if (desiredDepositInputValue === 0) {
         setCalcValues({
           ...calcValues,
@@ -491,12 +494,12 @@ export default function Calculator() {
       }
 
       // 희망 보증금 계산
-      // 희망 보증금 = (기본 월 임대료 - ((희망 보증금 - 기본 보증금) * 전환 이율 퍼센트) / 12
-      const calcDesiredDeposit =
-        removeCommaDefaultRent -
-        ((desiredDepositInputValue - removeCommaDefaultDeposit) *
-          conversionRatePercent) /
-          12;
+      const calcDesiredDeposit = desiredDepositAmount(
+        removeCommaDefaultRent,
+        removeCommaDefaultDeposit,
+        +enteredInput.conversionRate,
+        desiredDepositInputValue
+      );
 
       setCalcValues({
         ...calcValues,

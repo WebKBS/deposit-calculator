@@ -81,3 +81,26 @@ export const maxConversionRateAmount = (
     defaultDepositValue
   );
 };
+
+/**
+ * 희망 보증금 계산 함수
+ * 희망 보증금 = (기본 월 임대료 - ((희망 보증금 - 기본 보증금) * 전환 이율) / 12
+ * @param defaultRentValue - 기본 월 임대료
+ * @param defaultDepositValue - 기본 보증금
+ * @param conversionRateValue - 전환 이율
+ * @param inputValue - Input 값
+ * @returns
+ */
+export const desiredDepositAmount = (
+  defaultRentValue: number,
+  defaultDepositValue: number,
+  conversionRateValue: number,
+  inputValue: number
+): number => {
+  return (
+    defaultRentValue -
+    ((inputValue - defaultDepositValue) *
+      percentageConversion(conversionRateValue)) /
+      12
+  );
+};
