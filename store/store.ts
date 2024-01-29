@@ -9,6 +9,16 @@ interface DepositChange {
   setToggleDepositChange: () => void;
 }
 
+interface PwaModal {
+  isPwaOpen: boolean;
+  setClosePwaModal: () => void;
+}
+
+interface IosPwaModal {
+  isIosPwaOpen: boolean;
+  setIosClosePwaModal: () => void;
+}
+
 export const useMenu = create<MenuState>((set) => ({
   isOpen: false,
   toggle: () => set((state) => ({ isOpen: !state.isOpen })),

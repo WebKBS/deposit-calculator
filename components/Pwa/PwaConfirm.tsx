@@ -8,16 +8,6 @@ export default function PwaConfirm() {
   const [prompt, setPrompt] = useState<any>(null);
 
   useEffect(() => {
-    if (navigator.userAgent.match(/iPad|iPhone|iPod/i)) {
-      console.log('This is iOS.');
-      if (!navigator.userAgent.match(/Chrome/i)) {
-        console.log('모바일에서 크롬이 아닙니다.');
-      }
-    }
-    if (!navigator.userAgent.match(/Chrome/i)) {
-      console.log('pc에서 크롬이 아닙니다.');
-    }
-
     const handlePrompt = (event: any) => {
       event.preventDefault();
       setPrompt(event);

@@ -1,4 +1,4 @@
-import { useMenu } from '@/lib/store';
+import { useMenu } from '@/store/store';
 import Link from 'next/link';
 
 const menuList = [

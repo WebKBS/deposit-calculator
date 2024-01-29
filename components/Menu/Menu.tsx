@@ -1,5 +1,5 @@
 'use client';
-import { useMenu } from '@/lib/store';
+import { useMenu } from '@/store/store';
 import { IoMdClose } from 'react-icons/io';
 import { IoMenu } from 'react-icons/io5';
 import { Button } from '../ui/button';
