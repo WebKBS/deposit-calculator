@@ -2,10 +2,8 @@
 import defaultImage from '@/public/default-deposit.png';
 import { useDepositChange } from '@/store/store';
 import { parseInputNumber, removeCommaAndConvert } from '@/utils/numberUtils';
-import {
-  convertDepositAndBalance,
-  percentageConversion,
-} from '@/utils/sh/calculator';
+import { convertDepositAndBalance } from '@/utils/sh/calculator';
+import { inputCheckAlert } from '@/utils/validate';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { toast } from 'sonner';
@@ -123,7 +121,7 @@ export default function Calculator() {
   // 계약금 계산
   const handleDownPayment = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
-      const downPayment = parseInputNumber(target.value); // 현재 문자열 값
+      const downPayment = parseInputNumber(target.value);
 
       // 기본 보증금이 입력되지 않았을 경우
       if (!enteredInput.defaultDeposit) {
@@ -132,7 +130,6 @@ export default function Calculator() {
         return;
       }
 
-      const downPaymentPercent = percentageConversion(downPayment); // 계약금 비율
       const removeCommaDefaultDeposit = removeCommaAndConvert(
         enteredInput.defaultDeposit
       ); // 기본 보증금 콤마 제거
@@ -180,17 +177,25 @@ export default function Calculator() {
   // 최대 상호전환 비율
   const handleMaxConversionRate = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
-      if (!enteredInput.defaultDeposit) {
+      if (
+        inputCheckAlert(
+          enteredInput.defaultDeposit,
+          '기본 보증금을 입력해주세요.'
+        )
+      ) {
         defaultInput.current?.focus();
-        alert('기본 보증금을 입력해주세요.');
         return;
-      } else if (!enteredInput.defaultRent) {
+      } else if (
+        inputCheckAlert(
+          enteredInput.defaultRent,
+          '기본 월 임대료를 입력해주세요.'
+        )
+      ) {
         defaultRentInput.current?.focus();
-        alert('기본 월 임대료를 입력해주세요.');
         return;
       }
 
-      const maxConversionRate = target.value; // 현재 문자열 값
+      const maxConversionRate = target.value;
 
       // 최대 상호전환 비율이 100%를 초과할 경우
       if (+maxConversionRate > LIMIT_PERCENT) {
@@ -296,7 +301,7 @@ export default function Calculator() {
         return;
       }
 
-      const conversionRate = target.value; // 현재 문자열 값
+      const conversionRate = target.value;
 
       // 전환 비율이 100%를 초과할 경우
       if (+conversionRate > LIMIT_PERCENT) {
