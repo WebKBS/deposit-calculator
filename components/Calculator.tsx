@@ -2,7 +2,11 @@
 import defaultImage from '@/public/default-deposit.png';
 import { useDepositChange } from '@/store/store';
 import { parseInputNumber, removeCommaAndConvert } from '@/utils/numberUtils';
-import { convertDepositAndBalance } from '@/utils/sh/calculator';
+import {
+  conversionAmount,
+  maximumMonthlyRentAmount,
+  percentageConversion,
+} from '@/utils/sh/calculator';
 import { inputCheckAlert } from '@/utils/validate';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
@@ -43,10 +47,25 @@ export default function Calculator() {
 
   const [error, setError] = useState(false); // 에러 메세지
 
+  // 초기화 함수
+  const resetState = useCallback(() => {
+    if (enteredInput.maxConversionRate !== '') {
+      toast('상호전환 계산이 초기화 되었습니다.', {
+        action: {
+          label: '확인',
+          onClick: () => console.log('toast closed'),
+        },
+      });
+    }
+  }, [enteredInput.maxConversionRate]);
+
   // 기본 보증금 계산
   const handleDefaultDeposit = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
       const defaultDeposit = parseInputNumber(target.value); // 입력값을 숫자로 변환
+
+      resetState();
+
       setEnteredInput({
         ...enteredInput,
         defaultDeposit: defaultDeposit.toLocaleString(),
@@ -55,21 +74,16 @@ export default function Calculator() {
         desiredDeposit: '', // 희망 보증금 초기화
       });
 
-      // input값이 있을 때
-      if (
-        enteredInput.downPayment &&
-        enteredInput.balance &&
-        calcValues.calcDownPayment &&
-        calcValues.calcBalance
-      ) {
+      // 계약금 및 잔금 input값이 있을 때
+      if (enteredInput.downPayment && enteredInput.balance) {
         // 계약금 자동 계산
-        const updatedCalcDownPayment = convertDepositAndBalance(
+        const updatedCalcDownPayment = conversionAmount(
           defaultDeposit,
           +enteredInput.downPayment
         );
 
         // 잔금 자동 계산
-        const updatedCalcBalance = convertDepositAndBalance(
+        const updatedCalcBalance = conversionAmount(
           defaultDeposit,
           +enteredInput.balance
         );
@@ -79,35 +93,19 @@ export default function Calculator() {
           calcDownPayment: updatedCalcDownPayment.toLocaleString(),
           calcBalance: updatedCalcBalance.toLocaleString(),
           calcDesiredDeposit: '', // 예상 월 임대료 초기화
+          calcDeposit: '0',
+          calcRent: '0',
         });
       }
     },
-    [enteredInput, calcValues]
+    [enteredInput, calcValues, resetState]
   );
 
   // 기본 월 임대료 계산
   const handleDefaultRent = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const defaultRent = parseInputNumber(target.value); // 입력값을 숫자로 변환
 
-    // 상호전환 input값이 있을 경우 초기화 및 메세지
-    if (
-      enteredInput.maxConversionRate !== '' ||
-      enteredInput.conversionRate !== ''
-    ) {
-      toast('상호전환 계산이 초기화 되었습니다.', {
-        action: {
-          label: '확인',
-          onClick: () => console.log('toast closed'),
-        },
-      });
-
-      setCalcValues({
-        ...calcValues,
-        calcDeposit: '0', // 계산된 보증금 초기화
-        calcRent: '0', // 계산된 임대료 초기화
-        calcDesiredDeposit: '', // 예상 월 임대료 초기화
-      });
-    }
+    resetState();
 
     setEnteredInput({
       ...enteredInput,
@@ -115,6 +113,13 @@ export default function Calculator() {
       maxConversionRate: '', // 최대 상호전환 비율 초기화
       conversionRate: '', // 상호전환 비율 초기화
       desiredDeposit: '', // 희망 보증금 초기화
+    });
+
+    setCalcValues({
+      ...calcValues,
+      calcDeposit: '0', // 계산된 보증금 초기화
+      calcRent: '0', // 계산된 임대료 초기화
+      calcDesiredDeposit: '', // 예상 월 임대료 초기화
     });
   };
 
@@ -146,14 +151,14 @@ export default function Calculator() {
 
       // 계약금 자동 계산
       // 계약금 = 기본 보증금 * 계약금 비율
-      const calcDownPaymentValue = convertDepositAndBalance(
+      const calcDownPaymentValue = conversionAmount(
         removeCommaDefaultDeposit,
         downPayment
       );
 
       // 잔금 자동 계산
       // 잔금 = 기본 보증금 * 잔금 비율
-      const calcBalanceValue = convertDepositAndBalance(
+      const calcBalanceValue = conversionAmount(
         removeCommaDefaultDeposit,
         calcBalancePercent
       );
@@ -209,22 +214,29 @@ export default function Calculator() {
         desiredDeposit: '', // 희망 보증금 초기화
       });
 
-      const maxConversionRatePercent = +maxConversionRate / LIMIT_PERCENT; // 최대 상호전환 비율
-      const conversionRatePercent =
-        +enteredInput.conversionRate / LIMIT_PERCENT; // 전환 이율 퍼센트
+      // 전환 이율 소수점 변환
+      const conversionRatePercent = percentageConversion(
+        +enteredInput.conversionRate
+      );
+
+      // 기본 보증금 콤마 제거
       const removeCommaDefaultDeposit = removeCommaAndConvert(
         enteredInput.defaultDeposit
-      ); // 기본 보증금 콤마 제거
+      );
+
+      // 기본 월 임대료 콤마 제거
       const removeCommaDefaultRent = removeCommaAndConvert(
         enteredInput.defaultRent
-      ); // 기본 월 임대료 콤마 제거
+      );
 
       if (!isDepositChange) {
         // 월 임대료 상향일 경우
 
         // 기본 보증금 * 최대 상호전환 비율 = 최소 보증금 계산
-        const minimumDepositValue =
-          removeCommaDefaultDeposit * maxConversionRatePercent;
+        const minimumDepositValue = conversionAmount(
+          removeCommaDefaultDeposit,
+          +maxConversionRate
+        );
 
         setCalcValues({
           ...calcValues,
@@ -234,13 +246,20 @@ export default function Calculator() {
 
         // 전환 이율 입력값이 있을 경우
         if (enteredInput.conversionRate) {
-          // 최대 월 임대료 계산 = (기본 월 임대료 - ((최소 보증금 - 기본 보증금) * 전환 이율 퍼센트) / 12
-          const maximumRentValue = Math.floor(
-            removeCommaDefaultRent -
-              ((minimumDepositValue - removeCommaDefaultDeposit) *
-                conversionRatePercent) /
-                12
+          // 최대 월 임대료 계산 = (기본 월 임대료 - ((최소 보증금 - 기본 보증금) * 전환 이율) / 12
+          const maximumRentValue = maximumMonthlyRentAmount(
+            removeCommaDefaultRent,
+            minimumDepositValue,
+            removeCommaDefaultDeposit,
+            +enteredInput.conversionRate
           );
+
+          // const maximumRentValue = Math.floor(
+          //   removeCommaDefaultRent -
+          //     ((minimumDepositValue - removeCommaDefaultDeposit) *
+          //       conversionRatePercent) /
+          //       12
+          // );
 
           setCalcValues({
             ...calcValues,
@@ -266,6 +285,9 @@ export default function Calculator() {
         // 전환 이율 입력값이 있을 경우
         if (enteredInput.conversionRate) {
           // 최대 보증금 계산 = ((기본 월 임대료 - 최소 임대료) / 전환 이율 퍼센트) * 12 + 최소 보증금
+
+          // console.log(minimumRentValue);
+
           const maximumDepositValue =
             ((removeCommaDefaultRent - minimumRentValue) /
               conversionRatePercent) *
@@ -363,8 +385,6 @@ export default function Calculator() {
             conversionRatePercent) *
             12 +
           removeCommaDefaultDeposit;
-
-        console.log(maximumDepositValue);
 
         setCalcValues({
           ...calcValues,
