@@ -6,6 +6,7 @@ import {
   conversionAmount,
   maxConversionRateAmount,
   maximumMonthlyRentAmount,
+  minimumMonthlyRentAmount,
   percentageConversion,
 } from '@/utils/sh/calculator';
 import { inputCheckAlert } from '@/utils/validate';
@@ -151,14 +152,12 @@ export default function Calculator() {
       const calcBalancePercent = LIMIT_PERCENT - downPayment;
 
       // 계약금 자동 계산
-      // 계약금 = 기본 보증금 * 계약금 비율
       const calcDownPaymentValue = conversionAmount(
         removeCommaDefaultDeposit,
         downPayment
       );
 
       // 잔금 자동 계산
-      // 잔금 = 기본 보증금 * 잔금 비율
       const calcBalanceValue = conversionAmount(
         removeCommaDefaultDeposit,
         calcBalancePercent
@@ -233,7 +232,6 @@ export default function Calculator() {
       if (!isDepositChange) {
         // 월 임대료 상향일 경우
 
-        // 기본 보증금 * 최대 상호전환 비율 = 최소 보증금 계산
         const minimumDepositValue = conversionAmount(
           removeCommaDefaultDeposit,
           +maxConversionRate
@@ -247,7 +245,6 @@ export default function Calculator() {
 
         // 전환 이율 입력값이 있을 경우
         if (enteredInput.conversionRate) {
-          // 최대 월 임대료 계산 = (기본 월 임대료 - ((최소 보증금 - 기본 보증금) * 전환 이율) / 12
           const maximumRentValue = maximumMonthlyRentAmount(
             removeCommaDefaultRent,
             minimumDepositValue,
@@ -265,9 +262,9 @@ export default function Calculator() {
       } else {
         // 보증금 상향일 경우
 
-        // 최소 월 임대료 계산 = 기본 월 임대료 * 최대전환 이율 퍼센트 / 100
-        const minimumRentValue = Math.floor(
-          (removeCommaDefaultRent * +maxConversionRate) / 100
+        const minimumRentValue = minimumMonthlyRentAmount(
+          removeCommaDefaultRent,
+          +maxConversionRate
         );
 
         setCalcValues({
@@ -340,15 +337,24 @@ export default function Calculator() {
         desiredDeposit: '', // 희망 보증금 초기화
       });
 
-      const conversionRatePercent = +conversionRate / LIMIT_PERCENT; // 전환 이율 퍼센트
+      // 전환 이율 퍼센트
+      const conversionRatePercent = +conversionRate / LIMIT_PERCENT;
+
+      // 최대 상호전환 비율
       const maxConversionRatePercent =
-        +enteredInput.maxConversionRate / LIMIT_PERCENT; // 최대 상호전환 비율
+        +enteredInput.maxConversionRate / LIMIT_PERCENT;
+
+      // 기본 보증금 콤마 제거
       const removeCommaDefaultDeposit = removeCommaAndConvert(
         enteredInput.defaultDeposit
-      ); // 기본 보증금 콤마 제거
+      );
+
+      // 기본 월 임대료 콤마 제거
       const removeCommaDefaultRent = removeCommaAndConvert(
         enteredInput.defaultRent
-      ); // 기본 월 임대료 콤마 제거
+      );
+
+      // 계산된 보증금 콤마 제거
       const removeCommaCalcDeposit = removeCommaAndConvert(
         calcValues.calcDeposit
       );
@@ -497,6 +503,7 @@ export default function Calculator() {
 
   // 전월세 변경 버튼 클릭시 초기화
   const changeReset = () => {
+    resetState();
     setEnteredInput({
       ...enteredInput,
       maxConversionRate: '', // 최대 상호전환 비율
