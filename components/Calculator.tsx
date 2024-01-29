@@ -334,10 +334,6 @@ export default function Calculator() {
       // 전환 이율 퍼센트
       const conversionRatePercent = +conversionRateInputValue / LIMIT_PERCENT;
 
-      // 최대 상호전환 비율
-      const maxConversionRatePercent =
-        +enteredInput.maxConversionRate / LIMIT_PERCENT;
-
       // 기본 보증금 콤마 제거
       const removeCommaDefaultDeposit = removeCommaAndConvert(
         enteredInput.defaultDeposit
@@ -356,12 +352,13 @@ export default function Calculator() {
       if (!isDepositChange) {
         // 최소 보증금, 월 임대료 상향일 경우
 
-        // 최소 임대료
-        const maximumRentValue =
-          removeCommaDefaultRent -
-          ((removeCommaCalcDeposit - removeCommaDefaultDeposit) *
-            conversionRatePercent) /
-            12;
+        // 최대 월 임대료
+        const maximumRentValue = maximumMonthlyRentAmount(
+          removeCommaDefaultRent,
+          removeCommaCalcDeposit,
+          removeCommaDefaultDeposit,
+          +conversionRateInputValue
+        );
 
         setCalcValues({
           ...calcValues,
@@ -372,8 +369,9 @@ export default function Calculator() {
         // 최대 보증금, 월 임대료 하향일 경우
 
         // 최소 월 임대료
-        const minimumRentValue = Math.floor(
-          removeCommaDefaultRent * maxConversionRatePercent
+        const minimumRentValue = minimumMonthlyRentAmount(
+          removeCommaDefaultRent,
+          +enteredInput.maxConversionRate
         );
 
         setCalcValues({
@@ -382,12 +380,13 @@ export default function Calculator() {
           calcRent: minimumRentValue.toLocaleString(),
         });
 
-        // 최대 보증금 계산 = ((기본 월 임대료 - 최소 임대료) / 전환 이율 퍼센트) * 12 + 최소 보증금
-        const maximumDepositValue =
-          ((removeCommaDefaultRent - minimumRentValue) /
-            conversionRatePercent) *
-            12 +
-          removeCommaDefaultDeposit;
+        // 최대 보증금 계산
+        const maximumDepositValue = maxConversionRateAmount(
+          removeCommaDefaultRent,
+          minimumRentValue,
+          removeCommaDefaultDeposit,
+          +conversionRateInputValue
+        );
 
         setCalcValues({
           ...calcValues,
