@@ -292,7 +292,7 @@ export default function Calculator() {
         }
       }
     },
-    [enteredInput, calcValues]
+    [enteredInput, calcValues, isDepositChange]
   );
 
   // 전환 이율
