@@ -13,6 +13,9 @@ import { inputCheckAlert } from '@/utils/validate';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { toast } from 'sonner';
+import CurrentBasicDeposit from './Form/CurrentBasicDeposit';
+import DesiredDeposit from './Form/DesiredDeposit';
+import Result from './Form/Result';
 import { TipAlertDialog } from './Modal/TipAlertDialog';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -756,13 +759,7 @@ export default function Calculator() {
       </div>
       <div>
         <div className="py-2 mx-auto mb-2">
-          <div className="mb-2 text-right mt-2 text-sm ">
-            현재 기본 보증금:{' '}
-            <span className="text-green-500 dark:text-yellow-300">
-              {enteredInput.defaultDeposit || 0}
-            </span>{' '}
-            원
-          </div>
+          <CurrentBasicDeposit defaultDeposit={enteredInput.defaultDeposit} />
           {error && (
             <div className="text-xs text-right mb-4 text-green-500 dark:text-yellow-300">
               * 희망보증금은{' '}
@@ -776,38 +773,15 @@ export default function Calculator() {
               없습니다.
             </div>
           )}
-          <div className="flex items-center gap-4 mt-2">
-            <Label htmlFor="desiredDeposit" className="text-xl break-keep">
-              희망 보증금
-            </Label>
-            <Input
-              id="desiredDeposit"
-              type="text"
-              placeholder="희망 보증금 입력"
-              className="text-right border-red-500 flex-1"
-              onChange={handleDesiredDeposit}
-              value={enteredInput.desiredDeposit}
-            />
-          </div>
+          <DesiredDeposit
+            handleDesiredDeposit={handleDesiredDeposit}
+            desiredDeposit={enteredInput.desiredDeposit}
+          />
           <p className="text-xs text-right mt-2">
             *보통 100만원 단위 전환 가능
           </p>
         </div>
-
-        <div className="max-w-80 mx-auto pb-12">
-          <div className="flex justify-between items-center">
-            <h3 className="font-semibold">예상 월 임대료:</h3>
-            <p className="flex items-center">
-              <strong className="mr-1 text-2xl font-semibold text-red-500 break-all">
-                {calcValues.calcDesiredDeposit || 0}
-              </strong>
-              원
-            </p>
-          </div>
-          <p className="text-xs text-right mt-2">
-            * 참고용이며, 소수점 절삭 및 실제 금액과 다소 다를 수 있습니다.
-          </p>
-        </div>
+        <Result calcDesiredDeposit={calcValues.calcDesiredDeposit} />
       </div>
     </div>
   );
