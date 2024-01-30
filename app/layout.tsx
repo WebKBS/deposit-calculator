@@ -15,7 +15,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 const APP_TITLE = 'SH 보증금 전환 계산기';
-const APP_DESCRIPTION = '공공 전세임대주택 및 행복주택 보증금 상호전환 계산기';
+const APP_DESCRIPTION =
+  '보증금 계산기, 보증금 전환 계산기, 행복주택 계산기, 공공임대주택 계산기, 상호전환 계산기';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.depos.kr/'),
@@ -46,6 +47,7 @@ export const metadata: Metadata = {
     '공공임대주택 보증금 전환 계산기',
     '상호전환 계산기',
     '보증금 상호전환 계산기',
+    'sh 전환 보증금 계산기',
   ],
   manifest: '/manifest.json',
   appleWebApp: {
