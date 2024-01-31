@@ -8,8 +8,8 @@ interface IBalanceStore {
 const useBalanceStore = create<IBalanceStore>((set) => ({
   balance: '',
 
-  setBalance: (by) => {
-    set({ balance: by.toString() });
+  setBalance: (value) => {
+    set({ balance: value.toString() });
   },
 }));
 
