@@ -4,13 +4,13 @@ import { create } from 'zustand';
 
 interface IDefaultDepositStore {
   defaultDeposit: string;
-  handleDefaultDeposit: ({ target }: ChangeEvent<HTMLInputElement>) => void;
+  setDefaultDeposit: ({ target }: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const useDefaultDepositStore = create<IDefaultDepositStore>((set) => ({
   defaultDeposit: '',
 
-  handleDefaultDeposit: ({ target }) => {
+  setDefaultDeposit: ({ target }) => {
     const defaultDepositInputValue = parseInputNumber(target.value);
 
     set(() => ({

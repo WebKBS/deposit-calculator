@@ -3,7 +3,7 @@ import useDefaultDepositStore from '../../store/defaultDepositStore';
 
 const DefaultDepositInput = () => {
   const handleDefaultDeposit = useDefaultDepositStore(
-    (state) => state.handleDefaultDeposit
+    (state) => state.setDefaultDeposit
   );
   const defaultDeposit = useDefaultDepositStore(
     (state) => state.defaultDeposit

@@ -17,6 +17,7 @@ import DesiredDeposit from './Form/DesiredDeposit';
 import Result from './Form/Result';
 import { TipAlertDialog } from './Modal/TipAlertDialog';
 import DepositChangeButton from './sh/components/Button/DepositChangeButton';
+import Balance from './sh/components/View/Balance';
 import DefaultDeposit from './sh/components/View/DefaultDeposit';
 import DefaultRent from './sh/components/View/DefaultRent';
 import DownPayment from './sh/components/View/DownPayment';
@@ -540,6 +541,7 @@ export default function Calculator() {
       <DefaultDeposit />
       <DefaultRent />
       <DownPayment />
+      <Balance />
 
       <div className="mb-6">
         <div className="mb-2">

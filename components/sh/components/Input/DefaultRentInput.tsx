@@ -3,7 +3,7 @@ import useDefaultRentStore from '../../store/defaultRentStore';
 
 const DefaultRentInput = () => {
   const handleDefaultRent = useDefaultRentStore(
-    (state) => state.handleDefaultRent
+    (state) => state.setDefaultRent
   );
   const defaultRent = useDefaultRentStore((state) => state.defaultRent);
 

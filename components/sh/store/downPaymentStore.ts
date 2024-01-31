@@ -4,13 +4,13 @@ import { create } from 'zustand';
 
 interface IDownPaymentStore {
   downPayment: string;
-  handleDownPayment: ({ target }: ChangeEvent<HTMLInputElement>) => void;
+  setDownPayment: ({ target }: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const useDownPaymentStore = create<IDownPaymentStore>((set) => ({
   downPayment: '',
 
-  handleDownPayment: ({ target }) => {
+  setDownPayment: ({ target }) => {
     const downPaymentInputValue = parseInputNumber(target.value);
 
     set(() => ({

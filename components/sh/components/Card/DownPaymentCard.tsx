@@ -1,13 +1,24 @@
 import { Input } from '@/components/ui/input';
+import { ChangeEvent } from 'react';
+import useDefaultDepositStore from '../../store/defaultDepositStore';
 import useDownPaymentStore from '../../store/downPaymentStore';
 import DownPaymentInput from '../Input/DownPaymentInput';
 
 const DownPaymentCard = () => {
-  const handleDownPayment = useDownPaymentStore(
-    (state) => state.handleDownPayment
+  const setDownPayment = useDownPaymentStore((state) => state.setDownPayment);
+  const downPayment = useDownPaymentStore((state) => state.downPayment);
+  const defaultDeposit = useDefaultDepositStore(
+    (state) => state.defaultDeposit
   );
 
-  const downPayment = useDownPaymentStore((state) => state.downPayment);
+  const handleDownPayment = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!defaultDeposit) {
+      alert('기본 보증금을 입력해주세요.');
+      return;
+    }
+
+    setDownPayment(event);
+  };
 
   console.log('계약금: ', downPayment);
 

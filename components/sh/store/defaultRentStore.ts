@@ -4,13 +4,13 @@ import { create } from 'zustand';
 
 interface IDefaultRentStore {
   defaultRent: string;
-  handleDefaultRent: ({ target }: ChangeEvent<HTMLInputElement>) => void;
+  setDefaultRent: ({ target }: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const useDefaultRentStore = create<IDefaultRentStore>((set) => ({
   defaultRent: '',
 
-  handleDefaultRent: ({ target }) => {
+  setDefaultRent: ({ target }) => {
     const defaultRentInputValue = parseInputNumber(target.value);
 
     set(() => ({
