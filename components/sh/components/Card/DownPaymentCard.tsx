@@ -1,26 +1,27 @@
 import { Input } from '@/components/ui/input';
 import { ChangeEvent } from 'react';
-import useDefaultDepositStore from '../../store/defaultDepositStore';
+import useBalanceStore from '../../store/balanceStore';
 import useDownPaymentStore from '../../store/downPaymentStore';
 import DownPaymentInput from '../Input/DownPaymentInput';
 
 const DownPaymentCard = () => {
   const setDownPayment = useDownPaymentStore((state) => state.setDownPayment);
   const downPayment = useDownPaymentStore((state) => state.downPayment);
-  const defaultDeposit = useDefaultDepositStore(
-    (state) => state.defaultDeposit
-  );
+  const balance = useBalanceStore((state) => state.balance);
+  const setBalance = useBalanceStore((state) => state.setBalance);
 
   const handleDownPayment = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!defaultDeposit) {
-      alert('기본 보증금을 입력해주세요.');
+    if (+event.target.value > 100) {
+      alert(`계약금 비율은 100%를 초과할 수 없습니다.`);
       return;
     }
 
     setDownPayment(event);
-  };
 
-  console.log('계약금: ', downPayment);
+    const percentage = 100 - +event.target.value;
+
+    setBalance(percentage); // 잔금 추가
+  };
 
   return (
     <div className="flex gap-4">
