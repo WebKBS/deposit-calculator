@@ -16,9 +16,11 @@ import CurrentBasicDeposit from './Form/CurrentBasicDeposit';
 import DesiredDeposit from './Form/DesiredDeposit';
 import Result from './Form/Result';
 import { TipAlertDialog } from './Modal/TipAlertDialog';
-import DefaultAmountCard from './sh/components/Card/DefaultAmountCard';
-import DepositChangeButton from './sh/components/DepositChangeButton';
-import useShCalculatorStore from './sh/store';
+import DepositChangeButton from './sh/components/Button/DepositChangeButton';
+import DefaultDeposit from './sh/components/View/DefaultDeposit';
+import DefaultRent from './sh/components/View/DefaultRent';
+import DownPayment from './sh/components/View/DownPayment';
+import useShCalculatorStore from './sh/store/store';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
@@ -535,7 +537,10 @@ export default function Calculator() {
 
   return (
     <div>
-      <DefaultAmountCard />
+      <DefaultDeposit />
+      <DefaultRent />
+      <DownPayment />
+
       <div className="mb-6">
         <div className="mb-2">
           <Label htmlFor="defaultDeposit" className="mr-2">
@@ -577,6 +582,7 @@ export default function Calculator() {
           value={enteredInput.defaultRent}
         />
       </div>
+
       <div className="mb-6">
         <div className="mb-2">
           <Label htmlFor="downPayment" className="mr-2">

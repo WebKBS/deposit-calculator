@@ -1,3 +1,4 @@
+import { parseInputNumber } from '@/utils/numberUtils';
 import { ChangeEvent } from 'react';
 import { create } from 'zustand';
 
@@ -16,6 +17,7 @@ interface IShCalculatorStore {
 
   handleDefaultDeposit: ({ target }: ChangeEvent<HTMLInputElement>) => void;
   handleDefaultRent: ({ target }: ChangeEvent<HTMLInputElement>) => void;
+  handleDownPayment: ({ target }: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const useShCalculatorStore = create<IShCalculatorStore>((set) => ({
@@ -37,14 +39,34 @@ const useShCalculatorStore = create<IShCalculatorStore>((set) => ({
 
   // 기본 보증금 계산
   handleDefaultDeposit: ({ target }) => {
+    const defaultDepositInputValue = parseInputNumber(target.value);
+
     set((state) => ({
-      enteredInput: { ...state.enteredInput, defaultDeposit: target.value },
+      enteredInput: {
+        ...state.enteredInput,
+        defaultDeposit: defaultDepositInputValue.toLocaleString(),
+      },
     }));
   },
 
   handleDefaultRent: ({ target }) => {
+    const defaultRentInputValue = parseInputNumber(target.value);
     set((state) => ({
-      enteredInput: { ...state.enteredInput, defaultRent: target.value },
+      enteredInput: {
+        ...state.enteredInput,
+        defaultRent: defaultRentInputValue.toLocaleString(),
+      },
+    }));
+  },
+
+  handleDownPayment: ({ target }) => {
+    const downPaymentInputValue = parseInputNumber(target.value);
+
+    set((state) => ({
+      enteredInput: {
+        ...state.enteredInput,
+        downPayment: downPaymentInputValue.toLocaleString(),
+      },
     }));
   },
 }));

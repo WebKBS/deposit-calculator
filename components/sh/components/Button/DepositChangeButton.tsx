@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import useShCalculatorStore from '../store';
+import useShCalculatorStore from '../../store/store';
 
 export default function DepositChangeButton() {
   const isDepositChange = useShCalculatorStore(
