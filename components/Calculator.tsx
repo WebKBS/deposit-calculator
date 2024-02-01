@@ -19,6 +19,7 @@ import DepositChangeButton from './sh/components/Button/DepositChangeButton';
 import Balance from './sh/components/View/Balance';
 import DefaultDeposit from './sh/components/View/DefaultDeposit';
 import DefaultRent from './sh/components/View/DefaultRent';
+import DepositRentChange from './sh/components/View/DepositRentChange';
 import DownPayment from './sh/components/View/DownPayment';
 import useShCalculatorStore from './sh/store/store';
 import { Input } from './ui/input';
@@ -541,6 +542,7 @@ export default function Calculator() {
       <DefaultRent />
       <DownPayment />
       <Balance />
+      <DepositRentChange />
 
       <div className="mb-6">
         <div className="flex items-center justify-between gap-2 mb-2">
