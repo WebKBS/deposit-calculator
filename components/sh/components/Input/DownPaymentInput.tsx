@@ -4,22 +4,23 @@ import { conversionAmount } from '@/utils/sh/calculator';
 import { ChangeEvent } from 'react';
 import useBalanceStore from '../../store/balanceStore';
 import useCalcBalanceStore from '../../store/calcBalanceStore';
-import useCalcDownPayment from '../../store/calcDownPayment';
+import useCalcDownPaymentStore from '../../store/calcDownPaymentStore';
 import useDefaultDepositStore from '../../store/defaultDepositStore';
 import useDownPaymentStore from '../../store/downPaymentStore';
 
 const DownPaymentInput = () => {
+  const defaultDeposit = useDefaultDepositStore.getState().defaultDeposit;
+
   const downPayment = useDownPaymentStore((state) => state.downPayment);
   const setDownPayment = useDownPaymentStore((state) => state.setDownPayment);
   const setBalance = useBalanceStore((state) => state.setBalance);
-  const setCalcDownPayment = useCalcDownPayment(
+  const setCalcDownPayment = useCalcDownPaymentStore(
     (state) => state.setCalcDownPayment
   );
-  const defaultDeposit = useDefaultDepositStore(
-    (state) => state.defaultDeposit
-  );
+
   const setCalcBalance = useCalcBalanceStore((state) => state.setCalcBalance);
 
+  console.log('계약금');
   const handleDownPayment = (event: ChangeEvent<HTMLInputElement>) => {
     if (+event.target.value > 100) {
       alert(`계약금 비율은 100%를 초과할 수 없습니다.`);
@@ -37,7 +38,7 @@ const DownPaymentInput = () => {
 
     const calcBalance = conversionAmount(removeCommaDefaultDeposit, percentage);
 
-    setBalance(percentage); // 잔금 추가
+    setBalance(percentage); // 잔금 백분율 추가
     setCalcDownPayment(calcDownPayment.toLocaleString()); // 계약금 추가
     setCalcBalance(calcBalance.toLocaleString()); // 잔금 추가
   };

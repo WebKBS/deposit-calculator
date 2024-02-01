@@ -5,7 +5,7 @@ interface ICalcDownPayment {
   setCalcDownPayment: (calcDownPayment: string) => void;
 }
 
-const useCalcDownPayment = create<ICalcDownPayment>((set) => ({
+const useCalcDownPaymentStore = create<ICalcDownPayment>((set) => ({
   calcDownPayment: '',
 
   setCalcDownPayment: (value: string) => {
@@ -15,4 +15,4 @@ const useCalcDownPayment = create<ICalcDownPayment>((set) => ({
   },
 }));
 
-export default useCalcDownPayment;
+export default useCalcDownPaymentStore;
