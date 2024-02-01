@@ -16,6 +16,7 @@ import DesiredDeposit from './Form/DesiredDeposit';
 import Result from './Form/Result';
 import { TipAlertDialog } from './Modal/TipAlertDialog';
 import DepositChangeButton from './sh/components/Button/DepositChangeButton';
+import CalcResultCard from './sh/components/Card/CalcResultCard';
 import Balance from './sh/components/View/Balance';
 import DefaultDeposit from './sh/components/View/DefaultDeposit';
 import DefaultRent from './sh/components/View/DefaultRent';
@@ -543,6 +544,7 @@ export default function Calculator() {
       <DownPayment />
       <Balance />
       <DepositRentChange />
+      <CalcResultCard />
 
       <div className="mb-6">
         <div className="flex items-center justify-between gap-2 mb-2">

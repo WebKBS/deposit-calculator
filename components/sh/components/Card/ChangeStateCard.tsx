@@ -6,7 +6,7 @@ import ConversionCard from './ConversionCard';
 
 const ChangeStateCard = () => {
   return (
-    <>
+    <div className="mb-6">
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-3">
           <div className="flex flex-wrap items-center gap-2 justify-center">
@@ -20,7 +20,7 @@ const ChangeStateCard = () => {
         <DepositChangeButton />
       </div>
       <ConversionCard />
-    </>
+    </div>
   );
 };
 
