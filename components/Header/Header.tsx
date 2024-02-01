@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Menu from '../Menu/Menu';
 import ThemeToggle from '../Theme/ThemeToggle';
 import LogoChange from './LogoChange';
+import ShareButton from './ShareButton';
 
 export default function Header() {
   return (
@@ -14,6 +15,7 @@ export default function Header() {
         </h1>
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          <ShareButton />
           <Menu />
         </div>
       </div>
