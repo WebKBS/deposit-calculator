@@ -1,5 +1,4 @@
 'use client';
-import defaultImage from '@/public/default-deposit.png';
 import { parseInputNumber, removeCommaAndConvert } from '@/utils/numberUtils';
 import {
   conversionAmount,
@@ -543,112 +542,6 @@ export default function Calculator() {
       <DownPayment />
       <Balance />
 
-      <div className="mb-6">
-        <div className="mb-2">
-          <Label htmlFor="defaultDeposit" className="mr-2">
-            기본 보증금
-          </Label>
-          <TipAlertDialog
-            title="기본 보증금이란?"
-            body="기본 보증금은 공고문 기준 임대 조건의 '계'에 있는 금액을 입력하시면 됩니다. 단위는 천단위입니다. 예) 76,320 = 76,320,000원"
-            image={defaultImage}
-          />
-        </div>
-        <Input
-          id="defaultDeposit"
-          type="text"
-          placeholder="기본 보증금 입력"
-          pattern="[0-9]*"
-          inputMode="decimal"
-          className="text-right border-red-500"
-          ref={defaultInput}
-          onChange={handleDefaultDeposit}
-          value={enteredInput.defaultDeposit}
-        />
-      </div>
-      <div className="mb-6">
-        <div className="mb-2">
-          <Label htmlFor="rent" className="mr-2">
-            기본 월 임대료
-          </Label>
-        </div>
-        <Input
-          ref={defaultRentInput}
-          id="rent"
-          type="text"
-          placeholder="기본 월 임대료 입력"
-          pattern="[0-9]*"
-          inputMode="numeric"
-          className="text-right border-red-500"
-          onChange={handleDefaultRent}
-          value={enteredInput.defaultRent}
-        />
-      </div>
-
-      <div className="mb-6">
-        <div className="mb-2">
-          <Label htmlFor="downPayment" className="mr-2">
-            계약금
-          </Label>
-
-          <TipAlertDialog
-            title="계약금이란?"
-            body="SH의 계약금은 보통 20% 이며, 계약금을 설정하시면 자동으로 금액이 입력됩니다. 단위는 %입니다. 예) 20 = 20%"
-          />
-          <p className="my-2 text-xs text-green-600 dark:text-yellow-300">
-            *계약금 비율을 입력하면 자동 입력됩니다.
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <div className="flex items-center gap-1">
-            <Input
-              ref={downPaymentInput}
-              id="downPayment"
-              type="text"
-              placeholder="계약금"
-              pattern="[0-9]*"
-              inputMode="numeric"
-              className="flex-1 w-20 text-right border-red-500"
-              maxLength={3}
-              onChange={handleDownPayment}
-              value={enteredInput.downPayment}
-            />
-            <span>%</span>
-          </div>
-          <Input
-            readOnly
-            className="text-right bg-gray-200 dark:bg-gray-900"
-            placeholder="계약 금액"
-            value={calcValues.calcDownPayment}
-          />
-        </div>
-      </div>
-      <div className="mb-6">
-        <div className="mb-2 ">
-          <Label htmlFor="balance" className="mr-2">
-            잔금
-          </Label>
-        </div>
-        <div className="flex gap-4">
-          <div className="flex items-center gap-1">
-            <Input
-              id="balance"
-              type="text"
-              placeholder="잔금"
-              className="flex-1 w-20 text-right bg-gray-200 dark:bg-gray-900"
-              readOnly
-              value={enteredInput.balance}
-            />
-            <span>%</span>
-          </div>
-          <Input
-            readOnly
-            className="text-right bg-gray-200 dark:bg-gray-900"
-            placeholder="잔금"
-            value={calcValues.calcBalance}
-          />
-        </div>
-      </div>
       <div className="mb-6">
         <div className="flex items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-3">
