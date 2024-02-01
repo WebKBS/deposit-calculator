@@ -8,23 +8,25 @@ const TitleState = () => {
   );
 
   return (
-    <div className="flex flex-wrap items-center gap-2 justify-center">
-      <p className="flex items-center gap-1">
-        <Label>보증금</Label>
-        {!isDepositChange ? (
-          <FaArrowDown className="text-blue-600" />
-        ) : (
-          <FaArrowUp className="text-red-600" />
-        )}
-      </p>
-      <p className="flex items-center gap-1">
-        월 임대료
-        {!isDepositChange ? (
-          <FaArrowUp className="text-red-600" />
-        ) : (
-          <FaArrowDown className="text-blue-600" />
-        )}
-      </p>
+    <div>
+      <div className="flex flex-wrap items-center gap-2 justify-center">
+        <p className="flex items-center gap-1">
+          <Label>보증금</Label>
+          {!isDepositChange ? (
+            <FaArrowDown className="text-blue-600" />
+          ) : (
+            <FaArrowUp className="text-red-600" />
+          )}
+        </p>
+        <p className="flex items-center gap-1">
+          월 임대료
+          {!isDepositChange ? (
+            <FaArrowUp className="text-red-600" />
+          ) : (
+            <FaArrowDown className="text-blue-600" />
+          )}
+        </p>
+      </div>
     </div>
   );
 };

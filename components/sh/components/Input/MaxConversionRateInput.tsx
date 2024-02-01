@@ -2,7 +2,7 @@ import { Input } from '@/components/ui/input';
 import { ChangeEvent } from 'react';
 import useMaxConversionRateStore from '../../store/maxConversionRateStore';
 
-const MaxConversionRentInput = () => {
+const MaxConversionRateInput = () => {
   const maxConversionRate = useMaxConversionRateStore(
     (state) => state.maxConversionRate
   );
@@ -27,4 +27,4 @@ const MaxConversionRentInput = () => {
   );
 };
 
-export default MaxConversionRentInput;
+export default MaxConversionRateInput;
