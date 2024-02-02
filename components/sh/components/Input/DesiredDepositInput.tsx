@@ -15,7 +15,6 @@ const DesiredDepositInput = () => {
   );
 
   // ref 상태
-  const refState = useShStore((state) => state.refState);
   const setRefState = useShStore((state) => state.setRefState);
 
   const handleDesiredDeposit = (event: React.ChangeEvent<HTMLInputElement>) => {
