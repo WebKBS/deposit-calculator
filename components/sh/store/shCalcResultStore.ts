@@ -12,6 +12,7 @@ interface IUseShCalcResultStore {
   setCalcDeposit: (calcDeposit: string) => void;
   setCalcRent: (calcRent: string) => void;
   setCalcFinalRent: (value: string) => void;
+  resetCalcValue: () => void;
 }
 
 const useShCalcResultStore = create<IUseShCalcResultStore>((set, get) => ({
@@ -48,6 +49,14 @@ const useShCalcResultStore = create<IUseShCalcResultStore>((set, get) => ({
   setCalcFinalRent: (value) => {
     set(() => ({
       calcFinalRent: value,
+    }));
+  },
+
+  resetCalcValue: () => {
+    set(() => ({
+      calcDeposit: '',
+      calcRent: '',
+      calcFinalRent: '',
     }));
   },
 }));

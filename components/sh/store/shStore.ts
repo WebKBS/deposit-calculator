@@ -18,9 +18,10 @@ interface IUseShStore {
   setConversionRate: ({ target }: ChangeEvent<HTMLInputElement>) => void;
   setMaxConversionRate: ({ target }: ChangeEvent<HTMLInputElement>) => void;
   setDesiredDeposit: ({ target }: ChangeEvent<HTMLInputElement>) => void;
+  resetValue: () => void;
 }
 
-const useShStore = create<IUseShStore>((set, get) => ({
+const useShStore = create<IUseShStore>((set) => ({
   defaultDeposit: '',
   defaultRent: '',
   downPayment: '',
@@ -35,8 +36,6 @@ const useShStore = create<IUseShStore>((set, get) => ({
     set(() => ({
       defaultDeposit: defaultDepositInputValue.toLocaleString(),
     }));
-
-    get().setDefaultDeposit;
   },
 
   setDefaultRent: ({ target }) => {
@@ -73,6 +72,14 @@ const useShStore = create<IUseShStore>((set, get) => ({
     const desiredDepositInputValue = parseInputNumber(target.value);
 
     set({ desiredDeposit: desiredDepositInputValue.toLocaleString() });
+  },
+
+  resetValue: () => {
+    set({
+      conversionRate: '',
+      maxConversionRate: '',
+      desiredDeposit: '',
+    });
   },
 }));
 

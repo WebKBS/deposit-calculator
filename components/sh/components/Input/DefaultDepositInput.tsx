@@ -1,6 +1,7 @@
 import { Input } from '@/components/ui/input';
 import { parseInputNumber } from '@/utils/numberUtils';
 import { conversionAmount } from '@/utils/sh/calculator';
+import { toast } from 'sonner';
 import shCalcResultStore from '../../store/shCalcResultStore';
 import useShStore from '../../store/shStore';
 
@@ -14,12 +15,30 @@ const DefaultDepositInput = () => {
     (state) => state.setCalcDownPayment
   );
   const setCalcBalance = shCalcResultStore((state) => state.setCalcBalance);
-
   const setDefaultDeposit = useShStore((state) => state.setDefaultDeposit);
+
+  // 리셋
+  const resetValue = useShStore((state) => state.resetValue);
+  const resetCalcValue = shCalcResultStore((state) => state.resetCalcValue);
 
   const handleDefaultDeposit = (event: React.ChangeEvent<HTMLInputElement>) => {
     const defaultDepositNumber = parseInputNumber(event.target.value);
     setDefaultDeposit(event);
+
+    const maxConversionRate = useShStore.getState().maxConversionRate;
+    const conversionRate = useShStore.getState().conversionRate;
+    const desiredDeposit = useShStore.getState().desiredDeposit;
+
+    if (maxConversionRate || conversionRate || desiredDeposit) {
+      resetValue();
+      resetCalcValue();
+      toast('상호전환 계산이 초기화 되었습니다.', {
+        action: {
+          label: '확인',
+          onClick: () => console.log('toast closed'),
+        },
+      });
+    }
 
     if (downPayment && balance) {
       const updatedCalcDownPayment = conversionAmount(
