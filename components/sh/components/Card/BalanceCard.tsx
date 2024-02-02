@@ -1,11 +1,12 @@
 import { Input } from '@/components/ui/input';
-import useCalcBalanceStore from '../../store/shCalcResultStore';
-import useBalanceStore from '../../store/shStore';
+import useShCalcResultStore from '../../store/shCalcResultStore';
+import useShStore from '../../store/shStore';
 import BalanceInput from '../Input/BalanceInput';
 
 const BalanceCard = () => {
-  const balance = useBalanceStore((state) => state.balance);
-  const calcBalance = useCalcBalanceStore((state) => state.calcBalance);
+  const balance = useShStore((state) => state.balance);
+  const calcBalance = useShCalcResultStore((state) => state.calcBalance);
+
   return (
     <div className="flex gap-4">
       <BalanceInput value={balance} />

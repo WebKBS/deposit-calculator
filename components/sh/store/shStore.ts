@@ -2,7 +2,7 @@ import { parseInputNumber } from '@/utils/numberUtils';
 import { ChangeEvent } from 'react';
 import { create } from 'zustand';
 
-interface IShStore {
+interface IUseShStore {
   defaultDeposit: string;
   defaultRent: string;
   downPayment: string;
@@ -20,7 +20,7 @@ interface IShStore {
   setDesiredDeposit: ({ target }: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const useShStore = create<IShStore>((set) => ({
+const useShStore = create<IUseShStore>((set) => ({
   defaultDeposit: '',
   defaultRent: '',
   downPayment: '',

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface IShStore {
+interface IUseShCalcResultStore {
   calcDownPayment: string;
   calcBalance: string;
   calcFinalRent: string;
@@ -10,7 +10,7 @@ interface IShStore {
   setCalcFinalRent: (value: string) => void;
 }
 
-const useShStore = create<IShStore>((set) => ({
+const useShCalcResultStore = create<IUseShCalcResultStore>((set) => ({
   calcDownPayment: '',
   calcBalance: '',
   calcFinalRent: '',
@@ -34,4 +34,4 @@ const useShStore = create<IShStore>((set) => ({
   },
 }));
 
-export default useShStore;
+export default useShCalcResultStore;

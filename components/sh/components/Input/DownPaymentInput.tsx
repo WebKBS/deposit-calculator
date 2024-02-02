@@ -2,27 +2,18 @@ import { Input } from '@/components/ui/input';
 import { removeCommaAndConvert } from '@/utils/numberUtils';
 import { conversionAmount } from '@/utils/sh/calculator';
 import { ChangeEvent } from 'react';
-import {
-  default as useCalcBalanceStore,
-  default as useCalcDownPaymentStore,
-} from '../../store/shCalcResultStore';
-import {
-  default as useBalanceStore,
-  default as useDefaultDepositStore,
-  default as useDownPaymentStore,
-} from '../../store/shStore';
+import useShCalcResultStore from '../../store/shCalcResultStore';
+import useShStore from '../../store/shStore';
 
 const DownPaymentInput = () => {
-  const defaultDeposit = useDefaultDepositStore.getState().defaultDeposit;
-
-  const downPayment = useDownPaymentStore((state) => state.downPayment);
-  const setDownPayment = useDownPaymentStore((state) => state.setDownPayment);
-  const setBalance = useBalanceStore((state) => state.setBalance);
-  const setCalcDownPayment = useCalcDownPaymentStore(
+  const defaultDeposit = useShStore.getState().defaultDeposit;
+  const downPayment = useShStore((state) => state.downPayment);
+  const setDownPayment = useShStore((state) => state.setDownPayment);
+  const setBalance = useShStore((state) => state.setBalance);
+  const setCalcDownPayment = useShCalcResultStore(
     (state) => state.setCalcDownPayment
   );
-
-  const setCalcBalance = useCalcBalanceStore((state) => state.setCalcBalance);
+  const setCalcBalance = useShCalcResultStore((state) => state.setCalcBalance);
 
   console.log('계약금');
   const handleDownPayment = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,8 +30,13 @@ const DownPaymentInput = () => {
       removeCommaDefaultDeposit,
       +event.target.value
     );
-
     const calcBalance = conversionAmount(removeCommaDefaultDeposit, percentage);
+
+    console.log('기본보증금1: ', defaultDeposit);
+    console.log('퍼센트: ', percentage);
+    console.log('계약금: ', calcDownPayment);
+    console.log('잔금: ', calcBalance);
+    console.log('기본보증금2: ', removeCommaDefaultDeposit);
 
     setBalance(percentage); // 잔금 백분율 추가
     setCalcDownPayment(calcDownPayment.toLocaleString()); // 계약금 추가

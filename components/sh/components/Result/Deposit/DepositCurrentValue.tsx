@@ -1,9 +1,7 @@
-import useDefaultDepositStore from '@/components/sh/store/shStore';
+import useShStore from '@/components/sh/store/shStore';
 
 const DepositCurrentValue = () => {
-  const defaultDeposit = useDefaultDepositStore(
-    (state) => state.defaultDeposit
-  );
+  const defaultDeposit = useShStore((state) => state.defaultDeposit);
 
   return (
     <span className="text-green-500 dark:text-yellow-300">

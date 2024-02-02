@@ -1,13 +1,13 @@
 import create from 'zustand';
 
-interface IErrorStore {
+interface IUseErrorStore {
   enteredError: boolean;
   setEnteredError: (newEnteredError: boolean) => void;
 }
 
-const enteredErrorStore = create<IErrorStore>((set) => ({
+const useEnteredErrorStore = create<IUseErrorStore>((set) => ({
   enteredError: false,
   setEnteredError: (newEnteredError) => set({ enteredError: newEnteredError }),
 }));
 
-export default enteredErrorStore;
+export default useEnteredErrorStore;
