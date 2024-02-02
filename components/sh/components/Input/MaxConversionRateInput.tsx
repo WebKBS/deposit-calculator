@@ -27,6 +27,8 @@ const MaxConversionRateInput = () => {
       return;
     }
 
+    setMaxConversionRate(event);
+
     const defaultDeposit = useShStore.getState().defaultDeposit;
     const defaultRent = useShStore.getState().defaultRent;
     const isDepositChange = useDepositChangeStore.getState().isDepositChange;
@@ -54,8 +56,6 @@ const MaxConversionRateInput = () => {
 
       setCalcRent(minimumRent.toLocaleString());
     }
-
-    setMaxConversionRate(event);
   };
 
   return (
