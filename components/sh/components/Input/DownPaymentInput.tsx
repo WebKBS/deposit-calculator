@@ -24,8 +24,8 @@ const DownPaymentInput = () => {
     const defaultDeposit = useShStore.getState().defaultDeposit;
 
     if (!defaultDeposit) {
-      alert('기본 보증금을 입력해주세요.');
       setRefState(true);
+      alert('기본 보증금을 입력해주세요.');
       return;
     }
 

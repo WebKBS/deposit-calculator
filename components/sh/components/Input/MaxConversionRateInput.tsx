@@ -43,12 +43,12 @@ const MaxConversionRateInput = () => {
     const defaultRent = useShStore.getState().defaultRent;
 
     if (!defaultDeposit) {
-      alert('기본 보증금을 입력해주세요.');
       setRefState(true);
+      alert('기본 보증금을 입력해주세요.');
       return;
     } else if (!defaultRent) {
-      alert('기본 월 임대료를 입력해주세요.');
       setRefState(true);
+      alert('기본 월 임대료를 입력해주세요.');
       return;
     }
 
