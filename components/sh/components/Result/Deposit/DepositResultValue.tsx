@@ -1,3 +1,4 @@
+import useShCalcResultStore from '@/components/sh/store/shCalcResultStore';
 import { useDepositChangeStore } from '../../../store/depositChangeStore';
 
 const DepositResultValue = () => {
@@ -6,11 +7,11 @@ const DepositResultValue = () => {
   );
   const textColor = !isDepositChange ? 'text-blue-500' : 'text-red-500';
 
-  const value = '';
+  const calcDeposit = useShCalcResultStore((state) => state.calcDeposit);
 
   return (
     <span className={`mr-1 text-xl font-semibold break-all ${textColor}`}>
-      {value || 0}
+      {calcDeposit || 0}
     </span>
   );
 };

@@ -6,7 +6,7 @@ const DepositResult = () => {
     <div className="flex justify-between gap-2">
       <p className="min-w-24">
         <DepositResultState />
-        임대료:
+        보증금:
       </p>
       <p>
         <DepositResultValue />원
