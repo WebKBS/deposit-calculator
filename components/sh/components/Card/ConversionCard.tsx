@@ -1,3 +1,4 @@
+'use client';
 import { useDepositChangeStore } from '../../store/depositChangeStore';
 import ConversionRateInput from '../Input/ConversionRateInput';
 import MaxConversionRateInput from '../Input/MaxConversionRateInput';

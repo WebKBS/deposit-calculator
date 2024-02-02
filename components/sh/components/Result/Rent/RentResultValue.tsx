@@ -1,3 +1,4 @@
+'use client';
 import useShCalcResultStore from '@/components/sh/store/shCalcResultStore';
 import { useDepositChangeStore } from '../../../store/depositChangeStore';
 

@@ -1,3 +1,4 @@
+'use client';
 import { useDepositChangeStore } from '../../../store/depositChangeStore';
 
 const DepsoitResultState = () => {

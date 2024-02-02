@@ -1,3 +1,4 @@
+'use client';
 import useShStore from '@/components/sh/store/shStore';
 
 const DepositCurrentValue = () => {

@@ -1,3 +1,4 @@
+'use client';
 import { Input } from '@/components/ui/input';
 import { removeCommaAndConvert } from '@/utils/numberUtils';
 import { desiredDepositAmount } from '@/utils/sh/calculator';
@@ -13,14 +14,37 @@ const DesiredDepositInput = () => {
     (state) => state.setCalcFinalRent
   );
 
+  // ref 상태
+  const refState = useShStore((state) => state.refState);
+  const setRefState = useShStore((state) => state.setRefState);
+
   const handleDesiredDeposit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const defaultDeposit = useShStore.getState().defaultDeposit;
+    const defaultRent = useShStore.getState().defaultRent;
+    const maxConversionRate = useShStore.getState().maxConversionRate;
+    const conversionRate = useShStore.getState().conversionRate;
+
+    if (!defaultDeposit) {
+      alert('기본 보증금을 입력해주세요.');
+      setRefState(true);
+      return;
+    } else if (!defaultRent) {
+      alert('기본 월 임대료를 입력해주세요.');
+      setRefState(true);
+      return;
+    } else if (!maxConversionRate) {
+      alert('최대 전환율을 입력해주세요.');
+      setRefState(true);
+      return;
+    } else if (!conversionRate) {
+      alert('전환율을 입력해주세요.');
+      setRefState(true);
+      return;
+    }
+
     setDesiredDeposit(event);
 
     const isDepositChange = useDepositChangeStore.getState().isDepositChange;
-
-    const defaultDeposit = useShStore.getState().defaultDeposit;
-    const defaultRent = useShStore.getState().defaultRent;
-    const conversionRate = useShStore.getState().conversionRate;
 
     const removeCommaDefaultDeposit = removeCommaAndConvert(defaultDeposit);
     const removeCommaDefaultRent = removeCommaAndConvert(defaultRent);
@@ -28,7 +52,6 @@ const DesiredDepositInput = () => {
 
     const calcDeposit = useShCalcResultStore.getState().calcDeposit;
     const removeCommaCalcDeposit = removeCommaAndConvert(calcDeposit);
-    console.log(removeCommaCalcDeposit);
 
     if (removeCommaDesiredDeposit === 0) {
       setCalcFinalRent('0');
@@ -40,6 +63,17 @@ const DesiredDepositInput = () => {
 
       if (removeCommaDesiredDeposit < removeCommaCalcDeposit) {
         // 희망 보증금이 최소 보증금 보다 낮을 경우
+        useEnteredErrorStore.setState({ enteredError: true });
+        setCalcFinalRent('0');
+        return;
+      } else {
+        useEnteredErrorStore.setState({ enteredError: false });
+      }
+    } else {
+      // 최소 보증금, 월 임대료 하향일 경우
+
+      if (removeCommaDesiredDeposit > removeCommaCalcDeposit) {
+        // 희망 보증금이 최대 보증금 보다 높을 경우
         useEnteredErrorStore.setState({ enteredError: true });
         setCalcFinalRent('0');
         return;
@@ -62,6 +96,8 @@ const DesiredDepositInput = () => {
     <Input
       id="desiredDeposit"
       type="text"
+      pattern="[0-9]*"
+      inputMode="numeric"
       placeholder="희망 보증금 입력"
       className="text-right border-red-500 flex-1"
       onChange={handleDesiredDeposit}

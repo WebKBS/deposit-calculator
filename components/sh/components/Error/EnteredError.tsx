@@ -1,3 +1,4 @@
+'use client';
 import { useDepositChangeStore } from '../../store/depositChangeStore';
 import useErrorStore from '../../store/enteredErrorStore';
 
@@ -22,7 +23,13 @@ const EnteredError = () => {
               </span> 보다 <span className="text-blue-500">낮을 수</span>
             </>
           ) : (
-            <span className="text-red-500">높을 수</span>
+            <>
+              <span className="text-red-500">최대</span>
+              <span className="dark:text-white text-black">
+                {' '}
+                보증금
+              </span> 보다 <span className="text-red-500">높을 수</span>
+            </>
           )}{' '}
           없습니다.
         </div>

@@ -1,7 +1,9 @@
+'use client';
 import { Input } from '@/components/ui/input';
 import { removeCommaAndConvert } from '@/utils/numberUtils';
 import {
   conversionAmount,
+  maxConversionRateAmount,
   maximumMonthlyRentAmount,
 } from '@/utils/sh/calculator';
 import { ChangeEvent, useRef } from 'react';
@@ -100,7 +102,7 @@ const MaxConversionRateInput = () => {
 
       if (conversionRate !== '') {
         // 전환율이 입력되어 있을 경우
-        const maximumDeposit = maximumMonthlyRentAmount(
+        const maximumDeposit = maxConversionRateAmount(
           removeCommaDefaultRent,
           minimumRent,
           removeCommaDefaultDeposit,

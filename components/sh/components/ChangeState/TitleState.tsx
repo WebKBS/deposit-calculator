@@ -1,3 +1,4 @@
+'use client';
 import { Label } from '@/components/ui/label';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { useDepositChangeStore } from '../../store/depositChangeStore';

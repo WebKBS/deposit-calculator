@@ -1,3 +1,4 @@
+'use client';
 import { Input } from '@/components/ui/input';
 import { parseInputNumber } from '@/utils/numberUtils';
 import { conversionAmount } from '@/utils/sh/calculator';

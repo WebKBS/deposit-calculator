@@ -1,3 +1,4 @@
+'use client';
 import useShCalcResultStore from '../../store/shCalcResultStore';
 
 const FinalResult = () => {
