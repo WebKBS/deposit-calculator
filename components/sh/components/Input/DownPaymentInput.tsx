@@ -2,11 +2,15 @@ import { Input } from '@/components/ui/input';
 import { removeCommaAndConvert } from '@/utils/numberUtils';
 import { conversionAmount } from '@/utils/sh/calculator';
 import { ChangeEvent } from 'react';
-import useBalanceStore from '../../store/balanceStore';
-import useCalcBalanceStore from '../../store/calcBalanceStore';
-import useCalcDownPaymentStore from '../../store/calcDownPaymentStore';
-import useDefaultDepositStore from '../../store/defaultDepositStore';
-import useDownPaymentStore from '../../store/downPaymentStore';
+import {
+  default as useCalcBalanceStore,
+  default as useCalcDownPaymentStore,
+} from '../../store/shCalcResultStore';
+import {
+  default as useBalanceStore,
+  default as useDefaultDepositStore,
+  default as useDownPaymentStore,
+} from '../../store/shStore';
 
 const DownPaymentInput = () => {
   const defaultDeposit = useDefaultDepositStore.getState().defaultDeposit;

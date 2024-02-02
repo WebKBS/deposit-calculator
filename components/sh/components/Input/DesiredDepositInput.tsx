@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input';
-import useDesiredDepositStore from '../../store/desiredDepositStore';
+import useDesiredDepositStore from '../../store/shStore';
 
 const DesiredDepositInput = () => {
   const desiredDeposit = useDesiredDepositStore(

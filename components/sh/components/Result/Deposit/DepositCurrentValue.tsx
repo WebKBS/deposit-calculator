@@ -1,4 +1,4 @@
-import useDefaultDepositStore from '@/components/sh/store/defaultDepositStore';
+import useDefaultDepositStore from '@/components/sh/store/shStore';
 
 const DepositCurrentValue = () => {
   const defaultDeposit = useDefaultDepositStore(

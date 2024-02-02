@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input';
-import useCalcDownPayment from '../../store/calcDownPaymentStore';
+import useCalcDownPayment from '../../store/shCalcResultStore';
 
 const DownPaymentInputValue = () => {
   const calcDownPayment = useCalcDownPayment((state) => state.calcDownPayment);

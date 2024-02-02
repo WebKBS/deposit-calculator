@@ -1,4 +1,4 @@
-import useCalcFinalRentStore from '../../store/calcFinalRentStore';
+import useCalcFinalRentStore from '../../store/shCalcResultStore';
 
 const FinalResult = () => {
   const calcDesiredDeposit = useCalcFinalRentStore(

@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { ChangeEvent } from 'react';
-import useConversionRateStore from '../../store/conversionRateStore';
+import useConversionRateStore from '../../store/shStore';
 
 const ConversionRateInput = () => {
   const conversionRate = useConversionRateStore(

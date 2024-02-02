@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input';
-import useDefaultRentStore from '../../store/defaultRentStore';
+import useDefaultRentStore from '../../store/shStore';
 
 const DefaultRentInput = () => {
   const handleDefaultRent = useDefaultRentStore(

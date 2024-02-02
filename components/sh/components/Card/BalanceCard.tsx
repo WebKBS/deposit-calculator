@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/input';
-import useBalanceStore from '../../store/balanceStore';
-import useCalcBalanceStore from '../../store/calcBalanceStore';
+import useCalcBalanceStore from '../../store/shCalcResultStore';
+import useBalanceStore from '../../store/shStore';
 import BalanceInput from '../Input/BalanceInput';
 
 const BalanceCard = () => {

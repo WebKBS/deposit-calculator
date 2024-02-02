@@ -9,13 +9,7 @@ import {
 } from '@/utils/sh/calculator';
 import { inputCheckAlert } from '@/utils/validate';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { toast } from 'sonner';
-import CurrentBasicDeposit from './Form/CurrentBasicDeposit';
-import DesiredDeposit from './Form/DesiredDeposit';
-import Result from './Form/Result';
-import { TipAlertDialog } from './Modal/TipAlertDialog';
-import DepositChangeButton from './sh/components/Button/DepositChangeButton';
 import CalcResultCard from './sh/components/Card/CalcResultCard';
 import DefaultCurrentCard from './sh/components/Card/DefaultCurrentCard';
 import DesiredDepositCard from './sh/components/Card/DesiredDepositCard';
@@ -26,8 +20,6 @@ import DefaultRent from './sh/components/View/DefaultRent';
 import DepositRentChange from './sh/components/View/DepositRentChange';
 import DownPayment from './sh/components/View/DownPayment';
 import useShCalculatorStore from './sh/store/store';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
 
 const LIMIT_PERCENT = 100;
 
@@ -551,145 +543,6 @@ export default function Calculator() {
       <DefaultCurrentCard />
       <DesiredDepositCard />
       <FinalResultCard />
-
-      <div className="mb-6">
-        <div className="flex items-center justify-between gap-2 mb-2">
-          <div className="flex items-center gap-3">
-            <div className="flex flex-wrap items-center gap-2 justify-center">
-              <p className="flex items-center gap-1">
-                <Label>보증금</Label>
-                {!isDepositChange ? (
-                  <FaArrowDown className="text-blue-600" />
-                ) : (
-                  <FaArrowUp className="text-red-600" />
-                )}
-              </p>
-              <p className="flex items-center gap-1">
-                월 임대료
-                {!isDepositChange ? (
-                  <FaArrowUp className="text-red-600" />
-                ) : (
-                  <FaArrowDown className="text-blue-600" />
-                )}
-              </p>
-            </div>
-            <TipAlertDialog
-              title="보증금, 월 임대료 상호전환"
-              body="SH 모집공고를 보시면 상호전환에 대한 내용이 적혀있습니다. 공고물 또는 제공하는 건물에 대해 모두 상호전환 비율이 다를 수 있으며, 입력하시는 비율에 따라 보증금과 임대료는 자동으로 입력됩니다. 보증금 및 월 임대료 변경으로 보증금 상향, 임대로 하향, 등 전환 계산 가능하며, 기본 보증금, 기본 월 임대료, 계약금 변경시 상호전환의 내용은 초기화 됩니다. 단위는 %이며 소수점까지 가능합니다. 예) 50.5 = 50.5%"
-            />
-          </div>
-          <DepositChangeButton />
-        </div>
-        <div className="flex items-center gap-2 mb-2 text-sm">
-          {!isDepositChange ? '보증금의' : '월 임대료의'} {''}
-          <Input
-            ref={maxConversionRateInput}
-            type="text"
-            placeholder="%"
-            maxLength={6}
-            className="w-16 h-8 text-right border-red-500"
-            onChange={handleMaxConversionRate}
-            value={enteredInput.maxConversionRate}
-          />
-          % 까지 전환
-        </div>
-        <div className="flex items-center gap-2 mb-2 text-sm">
-          전환 이율
-          <Input
-            ref={conversionRateInput}
-            type="text"
-            placeholder="%"
-            maxLength={6}
-            className="w-16 h-8 text-right border-red-500"
-            onChange={handleConversionRate}
-            value={enteredInput.conversionRate}
-          />
-          %
-        </div>
-        <div>
-          <div className="flex justify-between gap-2">
-            <p className="min-w-24">
-              {!isDepositChange ? (
-                <span className="text-lg font-semibold text-blue-500">
-                  최소
-                </span>
-              ) : (
-                <span className="text-lg font-semibold text-red-500">최대</span>
-              )}{' '}
-              보증금:
-            </p>
-
-            {!isDepositChange ? (
-              <p>
-                <span className="mr-1 text-xl font-semibold text-blue-500 break-all">
-                  {calcValues.calcDeposit}
-                </span>
-                원
-              </p>
-            ) : (
-              <p>
-                <span className="mr-1 text-xl font-semibold text-red-500 break-all">
-                  {calcValues.calcDeposit}
-                </span>
-                원
-              </p>
-            )}
-          </div>
-          <div className="flex justify-between gap-2">
-            <p className="min-w-24">
-              {!isDepositChange ? (
-                <span className="text-lg font-semibold text-red-500">최대</span>
-              ) : (
-                <span className="text-lg font-semibold text-blue-500">
-                  최소
-                </span>
-              )}{' '}
-              임대료:
-            </p>
-            {!isDepositChange ? (
-              <p>
-                <span className="mr-1 text-xl font-semibold text-red-500 break-all ">
-                  {calcValues.calcRent}
-                </span>
-                원
-              </p>
-            ) : (
-              <p>
-                <span className="mr-1 text-xl font-semibold text-blue-500 break-all">
-                  {calcValues.calcRent}
-                </span>
-                원
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
-      <div>
-        <div className="py-2 mx-auto mb-2">
-          <CurrentBasicDeposit defaultDeposit={enteredInput.defaultDeposit} />
-          {error && (
-            <div className="text-xs text-right mb-4 text-green-500 dark:text-yellow-300">
-              * 희망보증금은{' '}
-              <span className="dark:text-white text-black">기본 보증금</span>{' '}
-              보다{' '}
-              {!isDepositChange ? (
-                <span className="text-red-500">높을 수</span>
-              ) : (
-                <span className="text-blue-500">낮을 수</span>
-              )}{' '}
-              없습니다.
-            </div>
-          )}
-          <DesiredDeposit
-            handleDesiredDeposit={handleDesiredDeposit}
-            desiredDeposit={enteredInput.desiredDeposit}
-          />
-          <p className="text-xs text-right mt-2">
-            *보통 100만원 단위 전환 가능
-          </p>
-        </div>
-        <Result calcDesiredDeposit={calcValues.calcDesiredDeposit} />
-      </div>
     </div>
   );
 }

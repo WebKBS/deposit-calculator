@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { ChangeEvent } from 'react';
-import useMaxConversionRateStore from '../../store/maxConversionRateStore';
+import useMaxConversionRateStore from '../../store/shStore';
 
 const MaxConversionRateInput = () => {
   const maxConversionRate = useMaxConversionRateStore(
