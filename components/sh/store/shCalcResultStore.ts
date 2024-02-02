@@ -10,7 +10,7 @@ interface IUseShCalcResultStore {
   setCalcFinalRent: (value: string) => void;
 }
 
-const useShCalcResultStore = create<IUseShCalcResultStore>((set) => ({
+const useShCalcResultStore = create<IUseShCalcResultStore>((set, get) => ({
   calcDownPayment: '',
   calcBalance: '',
   calcFinalRent: '',

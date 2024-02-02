@@ -20,7 +20,7 @@ interface IUseShStore {
   setDesiredDeposit: ({ target }: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const useShStore = create<IUseShStore>((set) => ({
+const useShStore = create<IUseShStore>((set, get) => ({
   defaultDeposit: '',
   defaultRent: '',
   downPayment: '',
@@ -35,6 +35,8 @@ const useShStore = create<IUseShStore>((set) => ({
     set(() => ({
       defaultDeposit: defaultDepositInputValue.toLocaleString(),
     }));
+
+    get().setDefaultDeposit;
   },
 
   setDefaultRent: ({ target }) => {
