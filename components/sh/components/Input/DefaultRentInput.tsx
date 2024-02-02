@@ -1,4 +1,5 @@
 import { Input } from '@/components/ui/input';
+import { useRef } from 'react';
 import { toast } from 'sonner';
 import useShCalcResultStore from '../../store/shCalcResultStore';
 import {
@@ -7,12 +8,24 @@ import {
 } from '../../store/shStore';
 
 const DefaultRentInput = () => {
-  const setDefaultRent = useDefaultRentStore((state) => state.setDefaultRent);
+  const ref = useRef<HTMLInputElement>(null);
+
   const defaultRent = useDefaultRentStore((state) => state.defaultRent);
+  const setDefaultRent = useDefaultRentStore((state) => state.setDefaultRent);
 
   // 리셋
   const resetValue = useShStore((state) => state.resetValue);
   const resetCalcValue = useShCalcResultStore((state) => state.resetCalcValue);
+
+  // ref 상태
+  const refState = useShStore((state) => state.refState);
+  const setRefState = useShStore((state) => state.setRefState);
+
+  if (refState && defaultRent === '') {
+    ref.current?.focus();
+    setRefState(false);
+    return;
+  }
 
   const handleDefaultRent = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDefaultRent(event);
@@ -35,6 +48,7 @@ const DefaultRentInput = () => {
 
   return (
     <Input
+      ref={ref}
       id="rent"
       type="text"
       placeholder="기본 월 임대료 입력"

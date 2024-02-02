@@ -3,6 +3,8 @@ import { ChangeEvent } from 'react';
 import { create } from 'zustand';
 
 interface IUseShStore {
+  refState: boolean;
+
   defaultDeposit: string;
   defaultRent: string;
   downPayment: string;
@@ -11,6 +13,7 @@ interface IUseShStore {
   maxConversionRate: string;
   desiredDeposit: string;
 
+  setRefState: (value: boolean) => void;
   setDefaultDeposit: ({ target }: ChangeEvent<HTMLInputElement>) => void;
   setDefaultRent: ({ target }: ChangeEvent<HTMLInputElement>) => void;
   setDownPayment: ({ target }: ChangeEvent<HTMLInputElement>) => void;
@@ -22,6 +25,8 @@ interface IUseShStore {
 }
 
 const useShStore = create<IUseShStore>((set) => ({
+  refState: false,
+
   defaultDeposit: '',
   defaultRent: '',
   downPayment: '',
@@ -29,6 +34,10 @@ const useShStore = create<IUseShStore>((set) => ({
   conversionRate: '',
   maxConversionRate: '',
   desiredDeposit: '',
+
+  setRefState: (value) => {
+    set({ refState: value });
+  },
 
   setDefaultDeposit: ({ target }) => {
     const defaultDepositInputValue = parseInputNumber(target.value);

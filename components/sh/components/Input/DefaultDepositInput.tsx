@@ -1,11 +1,14 @@
 import { Input } from '@/components/ui/input';
 import { parseInputNumber } from '@/utils/numberUtils';
 import { conversionAmount } from '@/utils/sh/calculator';
+import { useRef } from 'react';
 import { toast } from 'sonner';
 import shCalcResultStore from '../../store/shCalcResultStore';
 import useShStore from '../../store/shStore';
 
 const DefaultDepositInput = () => {
+  const ref = useRef<HTMLInputElement>(null);
+
   const defaultDeposit = useShStore((state) => state.defaultDeposit);
 
   const downPayment = useShStore((state) => state.downPayment);
@@ -20,6 +23,16 @@ const DefaultDepositInput = () => {
   // 리셋
   const resetValue = useShStore((state) => state.resetValue);
   const resetCalcValue = shCalcResultStore((state) => state.resetCalcValue);
+
+  // ref 상태
+  const refState = useShStore((state) => state.refState);
+  const setRefState = useShStore((state) => state.setRefState);
+
+  if (refState && defaultDeposit === '') {
+    ref.current?.focus();
+    setRefState(false);
+    return;
+  }
 
   const handleDefaultDeposit = (event: React.ChangeEvent<HTMLInputElement>) => {
     const defaultDepositNumber = parseInputNumber(event.target.value);
@@ -56,10 +69,9 @@ const DefaultDepositInput = () => {
     }
   };
 
-  console.log('기본 보증금: ', defaultDeposit);
-
   return (
     <Input
+      ref={ref}
       id="defaultDeposit"
       type="text"
       placeholder="기본 보증금 입력"

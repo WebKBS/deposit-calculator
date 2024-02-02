@@ -1,11 +1,13 @@
 import { Input } from '@/components/ui/input';
 import { removeCommaAndConvert } from '@/utils/numberUtils';
 import { conversionAmount } from '@/utils/sh/calculator';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useRef } from 'react';
 import useShCalcResultStore from '../../store/shCalcResultStore';
 import useShStore from '../../store/shStore';
 
 const DownPaymentInput = () => {
+  const ref = useRef<HTMLInputElement>(null);
+
   const downPayment = useShStore((state) => state.downPayment);
   const setDownPayment = useShStore((state) => state.setDownPayment);
   const setBalance = useShStore((state) => state.setBalance);
@@ -14,14 +16,23 @@ const DownPaymentInput = () => {
   );
   const setCalcBalance = useShCalcResultStore((state) => state.setCalcBalance);
 
-  console.log('계약금');
+  // ref 상태
+  const setRefState = useShStore((state) => state.setRefState);
+
   const handleDownPayment = (event: ChangeEvent<HTMLInputElement>) => {
+    const defaultDeposit = useShStore.getState().defaultDeposit;
+
+    if (!defaultDeposit) {
+      alert('기본 보증금을 입력해주세요.');
+      setRefState(true);
+      return;
+    }
+
     if (+event.target.value > 100) {
       alert(`계약금 비율은 100%를 초과할 수 없습니다.`);
       return;
     }
 
-    const defaultDeposit = useShStore.getState().defaultDeposit;
     setDownPayment(event);
 
     const percentage = 100 - +event.target.value;
@@ -42,7 +53,7 @@ const DownPaymentInput = () => {
     <>
       <div className="flex items-center gap-1">
         <Input
-          // ref={downPaymentInput}
+          ref={ref}
           id="downPayment"
           type="text"
           placeholder="계약금"

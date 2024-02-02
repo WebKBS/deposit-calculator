@@ -1,7 +1,10 @@
 import { Input } from '@/components/ui/input';
 import { removeCommaAndConvert } from '@/utils/numberUtils';
-import { conversionAmount } from '@/utils/sh/calculator';
-import { ChangeEvent } from 'react';
+import {
+  conversionAmount,
+  maximumMonthlyRentAmount,
+} from '@/utils/sh/calculator';
+import { ChangeEvent, useRef } from 'react';
 import { useDepositChangeStore } from '../../store/depositChangeStore';
 import useShCalcResultStore from '../../store/shCalcResultStore';
 import {
@@ -10,6 +13,8 @@ import {
 } from '../../store/shStore';
 
 const MaxConversionRateInput = () => {
+  const ref = useRef<HTMLInputElement>(null);
+
   const maxConversionRate = useMaxConversionRateStore(
     (state) => state.maxConversionRate
   );
@@ -21,7 +26,30 @@ const MaxConversionRateInput = () => {
   const setCalcDeposit = useShCalcResultStore((state) => state.setCalcDeposit);
   const setCalcRent = useShCalcResultStore((state) => state.setCalcRent);
 
+  // ref 상태
+  const refState = useShStore((state) => state.refState);
+  const setRefState = useShStore((state) => state.setRefState);
+
+  if (refState && maxConversionRate === '') {
+    ref.current?.focus();
+    setRefState(false);
+    return;
+  }
+
   const handleMaxConversionRate = (event: ChangeEvent<HTMLInputElement>) => {
+    const defaultDeposit = useShStore.getState().defaultDeposit;
+    const defaultRent = useShStore.getState().defaultRent;
+
+    if (!defaultDeposit) {
+      alert('기본 보증금을 입력해주세요.');
+      setRefState(true);
+      return;
+    } else if (!defaultRent) {
+      alert('기본 월 임대료를 입력해주세요.');
+      setRefState(true);
+      return;
+    }
+
     if (+event.target.value > 100) {
       alert(`최대 전환율은 100%를 초과할 수 없습니다.`);
       return;
@@ -29,8 +57,11 @@ const MaxConversionRateInput = () => {
 
     setMaxConversionRate(event);
 
-    const defaultDeposit = useShStore.getState().defaultDeposit;
-    const defaultRent = useShStore.getState().defaultRent;
+    useShStore.setState({ desiredDeposit: '' }); // 희망 보증금 초기화
+    useShCalcResultStore.setState({ calcFinalRent: '' }); // 최종 월 임대료 초기화
+
+    const conversionRate = useShStore.getState().conversionRate;
+
     const isDepositChange = useDepositChangeStore.getState().isDepositChange;
 
     const removeCommaDefaultDeposit = removeCommaAndConvert(defaultDeposit);
@@ -38,7 +69,6 @@ const MaxConversionRateInput = () => {
 
     if (!isDepositChange) {
       // 월 임대료 상향일 경우
-      console.log('월 임대료 상향일 경우');
 
       const minimumDeposit = conversionAmount(
         removeCommaDefaultDeposit,
@@ -46,6 +76,18 @@ const MaxConversionRateInput = () => {
       );
 
       setCalcDeposit(minimumDeposit.toLocaleString());
+
+      if (conversionRate !== '') {
+        // 전환율이 입력되어 있을 경우
+        const maximumRent = maximumMonthlyRentAmount(
+          removeCommaDefaultRent,
+          minimumDeposit,
+          removeCommaDefaultDeposit,
+          +conversionRate
+        );
+
+        setCalcRent(maximumRent.toLocaleString());
+      }
     } else {
       // 보증금 상향일 경우
 
@@ -55,11 +97,24 @@ const MaxConversionRateInput = () => {
       );
 
       setCalcRent(minimumRent.toLocaleString());
+
+      if (conversionRate !== '') {
+        // 전환율이 입력되어 있을 경우
+        const maximumDeposit = maximumMonthlyRentAmount(
+          removeCommaDefaultRent,
+          minimumRent,
+          removeCommaDefaultDeposit,
+          +conversionRate
+        );
+
+        setCalcDeposit(maximumDeposit.toLocaleString());
+      }
     }
   };
 
   return (
     <Input
+      ref={ref}
       type="text"
       placeholder="%"
       pattern="[0-9]*"
