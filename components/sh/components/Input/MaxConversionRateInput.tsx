@@ -19,6 +19,8 @@ const MaxConversionRateInput = () => {
     <Input
       type="text"
       placeholder="%"
+      pattern="[0-9]*"
+      inputMode="decimal"
       maxLength={6}
       className="w-16 h-8 text-right border-red-500"
       onChange={handleMaxConversionRate}

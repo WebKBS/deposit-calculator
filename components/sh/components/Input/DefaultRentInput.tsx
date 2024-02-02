@@ -15,7 +15,7 @@ const DefaultRentInput = () => {
       type="text"
       placeholder="기본 월 임대료 입력"
       pattern="[0-9]*"
-      inputMode="numeric"
+      inputMode="decimal"
       className="text-right border-red-500"
       onChange={handleDefaultRent}
       value={defaultRent}

@@ -48,10 +48,8 @@ const useShStore = create<IUseShStore>((set, get) => ({
   },
 
   setDownPayment: ({ target }) => {
-    const downPaymentInputValue = parseInputNumber(target.value);
-
     set(() => ({
-      downPayment: downPaymentInputValue.toString(),
+      downPayment: target.value,
     }));
   },
 

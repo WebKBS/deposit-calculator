@@ -47,9 +47,9 @@ const DownPaymentInput = () => {
           type="text"
           placeholder="계약금"
           pattern="[0-9]*"
-          inputMode="numeric"
+          inputMode="decimal"
           className="flex-1 w-20 text-right border-red-500"
-          maxLength={3}
+          maxLength={6}
           onChange={handleDownPayment}
           value={downPayment}
         />
