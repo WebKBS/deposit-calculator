@@ -26,7 +26,6 @@ const ConversionRateInput = () => {
   if (refState && conversionRate === '') {
     ref.current?.focus();
     setRefState(false);
-    return;
   }
 
   const handleConversionRate = (event: ChangeEvent<HTMLInputElement>) => {

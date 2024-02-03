@@ -32,7 +32,6 @@ const DefaultDepositInput = () => {
   if (refState && defaultDeposit === '') {
     ref.current?.focus();
     setRefState(false);
-    return;
   }
 
   const handleDefaultDeposit = (event: React.ChangeEvent<HTMLInputElement>) => {

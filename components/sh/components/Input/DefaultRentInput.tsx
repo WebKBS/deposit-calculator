@@ -25,7 +25,6 @@ const DefaultRentInput = () => {
   if (refState && defaultRent === '') {
     ref.current?.focus();
     setRefState(false);
-    return;
   }
 
   const handleDefaultRent = (event: React.ChangeEvent<HTMLInputElement>) => {

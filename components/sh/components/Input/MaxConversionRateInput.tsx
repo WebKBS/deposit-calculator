@@ -35,7 +35,6 @@ const MaxConversionRateInput = () => {
   if (refState && maxConversionRate === '') {
     ref.current?.focus();
     setRefState(false);
-    return;
   }
 
   const handleMaxConversionRate = (event: ChangeEvent<HTMLInputElement>) => {
