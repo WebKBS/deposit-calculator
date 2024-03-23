@@ -1,16 +1,6 @@
+import { menuList } from '@/config/navigationData';
 import { useMenu } from '@/store/store';
 import Link from 'next/link';
-
-const menuList = [
-  {
-    name: 'SH 보증금 임대료 계산기',
-    href: '/',
-  },
-  // {
-  //   name: '문의하기',
-  //   href: '/contact',
-  // },
-];
 
 export default function MenuList() {
   const toggle = useMenu((state) => state.toggle);
