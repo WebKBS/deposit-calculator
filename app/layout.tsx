@@ -104,6 +104,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <meta
+          name="naver-site-verification"
+          content="721e66fb2e376d6a0f923bc7f50393b88bc85d8f"
+        />
+      </head>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
