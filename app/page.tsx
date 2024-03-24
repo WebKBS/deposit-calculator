@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="flex-1">
       <div className="max-w-screen-md px-6 pt-8 m-auto">
-        <h2 className="mb-1 text-2xl font-bold">SH 보증금 임대료 계산기</h2>
+        <h1 className="mb-1 text-2xl font-bold">SH 보증금 임대료 계산기</h1>
         <p className="text-xs mb-2 break-keep">
           *본 페이지는 SH 보증금 임대료 상호전환 전용 계산기 이며, 타
           상호전환과는 금액이 다를 수 있습니다.

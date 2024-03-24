@@ -4,15 +4,15 @@ const InstallPage = () => {
   return (
     <main className="flex-1">
       <div className="max-w-screen-md px-6 py-12 m-auto">
-        <h2 className="mb-2 text-2xl font-bold">앱 설치방법</h2>
+        <h1 className="mb-2 text-2xl font-bold">앱 설치방법</h1>
         <p className="text-sm relative pl-3">
           <span className="absolute left-0 top-0">*</span>본 페이지는 홈페이지
           초기 접속시 하단의 앱 설치하기 버튼이 없을 때, 또는 사파리 브라우저 등
           지원하지 않는 브라우저를 사용시 앱을 설치하는 방법입니다.
         </p>
-        <h3 className="mt-6 mb-4 text-xl font-bold">
+        <h2 className="mt-6 mb-4 text-xl font-bold">
           아이폰 사파리 브라우저 예시입니다.
-        </h3>
+        </h2>
         <Image
           src="/install.png"
           width={300}
