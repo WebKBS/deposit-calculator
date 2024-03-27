@@ -20,7 +20,7 @@ const APP_DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.depos.kr/'),
-  robots: 'index,follow',
+  robots: 'index, follow',
   applicationName: APP_TITLE,
   title: {
     default: APP_TITLE,
