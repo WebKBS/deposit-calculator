@@ -76,7 +76,7 @@ const DefaultDepositInput = () => {
       type="text"
       placeholder="기본 보증금 입력"
       pattern="[0-9]*"
-      inputMode="decimal"
+      inputMode="numeric"
       className="text-right border-red-500"
       onChange={handleDefaultDeposit}
       value={defaultDeposit}
