@@ -109,6 +109,7 @@ export default function RootLayout({
           name="naver-site-verification"
           content="721e66fb2e376d6a0f923bc7f50393b88bc85d8f"
         />
+        <meta name="google-adsense-account" content="ca-pub-6828580975511725" />
       </head>
       <body className={inter.className}>
         <ThemeProvider
