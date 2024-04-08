@@ -19,7 +19,7 @@ const APP_DESCRIPTION =
   '보증금 계산기, 보증금 전환 계산기, 행복주택 계산기, 공공임대주택 계산기, 상호전환 계산기';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.depos.kr/'),
+  metadataBase: new URL('https://depos.kr/'),
   robots: 'index, follow',
   applicationName: APP_TITLE,
   title: {
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     siteName: APP_TITLE,
-    url: 'https://www.depos.kr/',
+    url: 'https://depos.kr/',
     images: [
       {
         url: '/app-1240.png',
