@@ -2,8 +2,6 @@ import Footer from '@/components/Footer/Footer';
 
 import { ThemeProvider } from '@/components/Theme/theme-provider';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 
@@ -127,8 +125,6 @@ export default function RootLayout({
             <Header />
             {children}
             <Footer />
-            <Analytics />
-            <SpeedInsights />
           </div>
         </ThemeProvider>
         <PwaConfirm />
